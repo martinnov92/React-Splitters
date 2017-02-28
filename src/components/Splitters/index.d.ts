@@ -2,15 +2,15 @@
 export type handlePositionType = 'vertical' | 'horizontal'; 
 
 export interface SplitterProps {
-    children?: {};
+    children?: {} | any;
     position: handlePositionType;
     hasDetailPane?: boolean;
-    primaryPaneMinWidth?: number; 
-    primaryPaneWidth?: string; 
-    primaryPaneMaxWidth?: string;
-    primaryPaneMinHeight?: number; 
-    primaryPaneHeight?: string; 
-    primaryPaneMaxHeight?: string;
+    primaryPaneMinWidth?: number | any; 
+    primaryPaneWidth?: string | any; 
+    primaryPaneMaxWidth?: string | any;
+    primaryPaneMinHeight?: number | any; 
+    primaryPaneHeight?: string | any; 
+    primaryPaneMaxHeight?: string | any;
     className?: string; 
     primaryPaneClassName?: string; 
     secondaryPaneClassName?: string;
@@ -21,11 +21,11 @@ export interface SplitterProps {
 
 export interface SplitterState {
     isDragging?: boolean;
-    maxMousePosInSplitterFromPercentage?: number;
-    handleBarOffsetFromParent?: number;
-    primaryPane?: number;
-    lastX?: number;
-    lastY?: number;
+    maxMousePosInSplitterFromPercentage?: number | any;
+    handleBarOffsetFromParent?: number | any;
+    primaryPane?: number | any;
+    lastX?: number | any;
+    lastY?: number | any;
 }
 
 // ------ Pane interfaces
@@ -33,7 +33,7 @@ export interface PaneProps {
     position: handlePositionType;
     hasDetailPane?: boolean;
     id?: string;
-    style?: CSSStyleRule;
+    style?: CSSStyleRule | any;
     className?: string;
 }
 

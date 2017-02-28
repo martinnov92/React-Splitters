@@ -3,7 +3,7 @@ import * as ReactDOM from 'react-dom';
 // ---import pane, handlebar and styles---
 import Pane from './Pane';
 import HandleBar from './HandleBar';
-import './splitters.less';
+import './splitters.css';
 // ---import helpers function---
 import { unselectAll } from './Helpers';
 // ---interfaces---
@@ -151,7 +151,6 @@ class Splitter extends React.Component<SplitterProps, SplitterState> {
         }
 
         const { handleBarOffsetFromParent, lastX, lastY } = this.state;
-        const { position } = this.props;
 
         let primaryPanePosition;
         switch (this.props.position) {

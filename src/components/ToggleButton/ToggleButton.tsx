@@ -1,5 +1,5 @@
 ﻿import * as React from 'react';
-import './pd-togglebox.less';
+import './pd-togglebox.css';
 
 interface ToggleButtonState {
     active?: Boolean;
@@ -7,7 +7,7 @@ interface ToggleButtonState {
 
 interface ToggleButtonProps {
     label?: String;
-    handleChange?: Function;
+    handleChange?: Function | any;
     className?: String;
     dispatchResize?: Boolean;
 }
