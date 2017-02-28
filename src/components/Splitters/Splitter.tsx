@@ -27,9 +27,9 @@ class Splitter extends React.Component<SplitterProps, SplitterState> {
     }
 
     getSize() {
-        /********************************
-        * This function calculate the max position of a mouse in the current splitter.
-        ********************************/
+        /********************************/
+        // This function calculate the max position of a mouse in the current splitter.
+        /********************************/
         let maxMousePosInSplitterFromPercentage;
         let nodeWrapperSize;
         let primaryPaneOffset;
@@ -311,6 +311,15 @@ class Splitter extends React.Component<SplitterProps, SplitterState> {
                         handleMouseDown={this.handleMouseDown} 
                         ref={node => this.handlebar = node} 
                     /> 
+                    : null
+                }
+
+                {
+                    this.state.isDragging
+                    ? <div 
+                        className="handle-bar vertical"
+                        style={{position: "absolute", left: this.state.primaryPane + "px"}}
+                    />
                     : null
                 }
 

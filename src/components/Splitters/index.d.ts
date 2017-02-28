@@ -40,5 +40,5 @@ export interface PaneProps {
 // ------ Handlebar interfaces
 export interface HandleBarProps {
     position: handlePositionType;
-    handleMouseDown: Function;
+    handleMouseDown?: Function | any;
 }
