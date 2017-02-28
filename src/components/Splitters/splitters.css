@@ -62,5 +62,9 @@
 .handle-bar:active, .handle-bar:hover {
   background-color: #ccc; }
 
+.handle-bar.handle-bar_clone {
+  background-color: #ccc;
+  opacity: .9; }
+
 .rotate-90 {
   transform: rotate(90deg); }

@@ -17,6 +17,7 @@ export interface SplitterProps {
     dispatchResize?: Boolean;
     maximizedPrimaryPane?: Boolean;
     minimalizedPrimaryPane?: Boolean;
+    postPoned?: Boolean;
 }
 
 export interface SplitterState {

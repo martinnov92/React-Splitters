@@ -23,8 +23,7 @@ body {
   background-color: #fff; }
 
 .split {
-  height: calc(100% - 60px);
-  padding: 10px; }
+  height: calc(100% - 50px); }
 
 .split .pane {
   background-color: #fff; }

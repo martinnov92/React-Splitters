@@ -26,23 +26,26 @@ class App extends React.Component<null, AppState> {
             dispatchResize={true}
           />
         </div>
-        <Splitter
-          position="vertical"
-          primaryPaneMaxWidth="80%"
-          primaryPaneMinWidth={0}
-          primaryPaneWidth="400px"
-          dispatchResize={true}
-          maximizedPrimaryPane={this.state.maxPrimaryPane}
-          minimalizedPrimaryPane={false}
-          className="split"
-        >
-          <div>
-            <Example />
-          </div>
-          <div>
-            <Example />
-          </div>
-        </Splitter>
+        <div style={{padding: "10px", width: "100%", height: "100%"}}>
+          <Splitter
+            position="vertical"
+            primaryPaneMaxWidth="80%"
+            primaryPaneMinWidth={0}
+            primaryPaneWidth="400px"
+            dispatchResize={true}
+            maximizedPrimaryPane={this.state.maxPrimaryPane}
+            minimalizedPrimaryPane={false}
+            postPoned={true}
+            className="split"
+          >
+            <div>
+              <Example />
+            </div>
+            <div>
+              <Example />
+            </div>
+          </Splitter>
+        </div>
       </div>
     );
   }
