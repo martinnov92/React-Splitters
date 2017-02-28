@@ -1,0 +1,22 @@
+{
+  "name": "Splitters",
+  "version": "0.1.0",
+  "private": true,
+  "devDependencies": {
+    "react-scripts-ts": "1.1.6"
+  },
+  "dependencies": {
+    "@types/jest": "^18.1.1",
+    "@types/node": "^7.0.5",
+    "@types/react": "^15.0.13",
+    "@types/react-dom": "^0.14.23",
+    "react": "^15.4.2",
+    "react-dom": "^15.4.2"
+  },
+  "scripts": {
+    "start": "react-scripts-ts start",
+    "build": "react-scripts-ts build",
+    "test": "react-scripts-ts test --env=jsdom",
+    "eject": "react-scripts-ts eject"
+  }
+}
