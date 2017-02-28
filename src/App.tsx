@@ -39,7 +39,9 @@ class App extends React.Component<null, AppState> {
           <div>
             <Example />
           </div>
-          <div />
+          <div>
+            <Example />
+          </div>
         </Splitter>
       </div>
     );

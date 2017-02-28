@@ -1,15 +1,14 @@
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
-// ---import pane, handlebar and styles---
+/********************************
+* import files needed for splitter to work
+********************************/
 import Pane from './Pane';
 import HandleBar from './HandleBar';
 import './splitters.css';
-// ---import helpers function---
 import { unselectAll } from './Helpers';
-// ---interfaces---
 import { SplitterProps, SplitterState } from './index';
 
-// ---component---
 class Splitter extends React.Component<SplitterProps, SplitterState> {
     paneWrapper: any;
     panePrimary: any;
@@ -28,6 +27,9 @@ class Splitter extends React.Component<SplitterProps, SplitterState> {
     }
 
     getSize() {
+        /********************************
+        * This function calculate the max position of a mouse in the current splitter.
+        ********************************/
         let maxMousePosInSplitterFromPercentage;
         let nodeWrapperSize;
         let primaryPaneOffset;
@@ -53,6 +55,10 @@ class Splitter extends React.Component<SplitterProps, SplitterState> {
     }
 
     componentDidMount() {
+        /********************************
+        * Sets event listeners after component is mounted.
+        * If there is only one pane, the resize event listener won't be added
+        ********************************/
         document.addEventListener('mouseup', this.handleMouseUp);
         document.addEventListener('touchend', this.handleMouseUp);
         if (React.Children.count(this.props.children) > 1) {
@@ -61,6 +67,13 @@ class Splitter extends React.Component<SplitterProps, SplitterState> {
     }
 
     handleMouseDown(e: any) {
+        /********************************
+        * If the button someone clicked is right button => function stops
+        * If there is more then one pane, we get the sizes of panes + max pos of mouse in splitter
+        * state is set to isDragging on mouse down and the offset of handlebar from parent element
+        * is calculated and saved to state
+        * add event listener for touch move and mouse move
+        ********************************/
         if (e.button === 2) {
             return;
         }     
@@ -95,6 +108,12 @@ class Splitter extends React.Component<SplitterProps, SplitterState> {
     }
 
     handleMouseMove(e: any) {
+        /********************************
+        * check if the state is still isDragging, if not, stop the function
+        * unselectAll - unselect all selected text
+        * check position of mouse in splitter and and set the width, or height of primary pane
+        * save last positions of X and Y coords (that is necessary for touch screen)
+        ********************************/
         if (!this.state.isDragging) {
           return;  
         }
@@ -146,6 +165,14 @@ class Splitter extends React.Component<SplitterProps, SplitterState> {
     }
 
     handleMouseUp() {
+        /********************************
+        * check if the state is still isDragging, if not, stop the function
+        * check position of mouse in splitter and and set the width, or height of primary pane
+        *** I had to do this here as well, because sometimes mouse gets out of viewport and the width 
+        *** was set to 3000px,...
+        * Dispatch event is for components which resizes on window resize
+        * and last step is to check sizes
+        ********************************/
         if (!this.state.isDragging) {
             return;
         }
@@ -198,6 +225,9 @@ class Splitter extends React.Component<SplitterProps, SplitterState> {
     }
 
     render() {
+        /********************************
+         * set width of primary pane according to props, or state
+        ********************************/
         const { children, position, 
                 primaryPaneMinWidth, primaryPaneWidth, primaryPaneMaxWidth,
                 primaryPaneMinHeight, primaryPaneHeight, primaryPaneMaxHeight, 
