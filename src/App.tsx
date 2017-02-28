@@ -1,6 +1,7 @@
 import * as React from 'react';
 import Splitter from './components/Splitters/Splitter';
 import ToggleButton from './components/ToggleButton/ToggleButton';
+import Example from './AdGrid';
 
 interface AppState {
   maxPrimaryPane?: Boolean
@@ -35,7 +36,9 @@ class App extends React.Component<null, AppState> {
           minimalizedPrimaryPane={false}
           className="split"
         >
-          <div />
+          <div>
+            <Example />
+          </div>
           <div />
         </Splitter>
       </div>
