@@ -49,22 +49,18 @@
   background-color: #eeeff0;
   cursor: col-resize;
   font-size: 14px; }
-
-.handle-bar span {
-  cursor: pointer; }
-
-.handle-bar.horizontal {
-  width: 100%;
-  height: 10px;
-  min-height: 10px;
-  cursor: row-resize; }
-
-.handle-bar:active, .handle-bar:hover {
-  background-color: #ccc; }
-
-.handle-bar.handle-bar_clone {
-  background-color: #ccc;
-  opacity: .9; }
+  .handle-bar span {
+    cursor: pointer; }
+  .handle-bar.horizontal {
+    width: 100%;
+    height: 10px;
+    min-height: 10px;
+    cursor: row-resize; }
+  .handle-bar:active, .handle-bar:hover {
+    background-color: #ccc; }
+  .handle-bar.handle-bar_clone {
+    background-color: #ccc;
+    opacity: .9; }
 
 .rotate-90 {
   transform: rotate(90deg); }

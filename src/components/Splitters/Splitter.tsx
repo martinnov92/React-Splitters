@@ -102,9 +102,7 @@ class Splitter extends React.Component<SplitterProps, SplitterState> {
         
         this.setState({  
             isDragging: true,
-            handleBarOffsetFromParent,
-            lastX: clientX,
-            lastY: clientY
+            handleBarOffsetFromParent
         });
         document.addEventListener('mousemove', this.handleMouseMove);
         document.addEventListener('touchmove', this.handleMouseMove);
@@ -124,6 +122,9 @@ class Splitter extends React.Component<SplitterProps, SplitterState> {
 
         const { handleBarOffsetFromParent, 
             maxMousePosInSplitterFromPercentage } = this.state;
+        const { position, primaryPaneMinWidth, 
+            primaryPaneMinHeight, postPoned } = this.props;
+
         let primaryPanePosition;
         let clientX;
         let clientY;
@@ -136,55 +137,23 @@ class Splitter extends React.Component<SplitterProps, SplitterState> {
             clientY = e.touches[0].clientY;
         }
 
-        // if postPoned is true, save the last mouse position and stop the function
-        // there is no need to identify what is the position of splitter
-        // this will be done in render method
-        if (this.props.postPoned) {
-            switch (this.props.position) {
-                case 'vertical': {        
-                    const postPonedLastX = 
-                        clientX > maxMousePosInSplitterFromPercentage 
-                        ? maxMousePosInSplitterFromPercentage 
-                        : clientX - handleBarOffsetFromParent;
-
-                    this.setState({    
-                        lastX: postPonedLastX
-                    });
-                    break;
-                }
-                case 'horizontal': {
-                    const postPonedLastY =
-                        clientY > maxMousePosInSplitterFromPercentage 
-                        ? maxMousePosInSplitterFromPercentage 
-                        : clientY - handleBarOffsetFromParent;
-
-                    this.setState({    
-                        lastY: postPonedLastY
-                    });
-                    break;
-                }
-            }
-            return;
-        }
-
-        switch (this.props.position) {
+        switch (position) {
             case 'horizontal': {
-                if (clientY > this.state.maxMousePosInSplitterFromPercentage) {
-                    primaryPanePosition = this.state.maxMousePosInSplitterFromPercentage;
-                } else if ((clientY - handleBarOffsetFromParent) <= this.props.primaryPaneMinHeight) {
-                    primaryPanePosition = this.props.primaryPaneMinHeight + 0.001;
+                if (clientY > maxMousePosInSplitterFromPercentage) {
+                    primaryPanePosition = maxMousePosInSplitterFromPercentage;
+                } else if ((clientY - handleBarOffsetFromParent) <= primaryPaneMinHeight) {
+                    primaryPanePosition = primaryPaneMinHeight + 0.001;
                 } else {
                     primaryPanePosition = clientY - handleBarOffsetFromParent;
                 }
                 break;
             }
-            case 'vertical':
-            default: {
-                if (clientX > this.state.maxMousePosInSplitterFromPercentage) {
-                    primaryPanePosition = this.state.maxMousePosInSplitterFromPercentage;
+            case 'vertical': {
+                if (clientX > maxMousePosInSplitterFromPercentage) {
+                    primaryPanePosition = maxMousePosInSplitterFromPercentage;
                     // TODO: blink the handlebar on max size
-                } else if ((clientX - handleBarOffsetFromParent) <= this.props.primaryPaneMinWidth) {
-                    primaryPanePosition =  this.props.primaryPaneMinWidth + 0.001;
+                } else if ((clientX - handleBarOffsetFromParent) <= primaryPaneMinWidth) {
+                    primaryPanePosition =  primaryPaneMinWidth + 0.001;
                 } else {
                     primaryPanePosition = clientX - handleBarOffsetFromParent;
                 }
@@ -192,11 +161,18 @@ class Splitter extends React.Component<SplitterProps, SplitterState> {
             }
         }
 
-        this.setState({    
-            primaryPane: primaryPanePosition,
-            lastX: clientX,
-            lastY: clientY
-        });
+        if (postPoned) {
+            this.setState({    
+                [position === 'vertical' ? 'lastX' : 'lastY']: primaryPanePosition,
+                isVisible: true
+            });
+        } else {
+            this.setState({    
+                primaryPane: primaryPanePosition,
+                lastX: clientX,
+                lastY: clientY
+            });
+        }
     }
 
     handleMouseUp() {
@@ -242,6 +218,7 @@ class Splitter extends React.Component<SplitterProps, SplitterState> {
         if (this.props.postPoned) {
            this.setState({
                 isDragging: false,
+                isVisible: false,
                 primaryPane: this.props.position === 'vertical' ? lastX : lastY
             });         
         } else {
@@ -366,7 +343,7 @@ class Splitter extends React.Component<SplitterProps, SplitterState> {
                 }
 
                 {
-                    this.state.isDragging && this.props.postPoned
+                    this.state.isDragging && this.state.isVisible && this.props.postPoned
                     ? <div 
                         className={`handle-bar handle-bar_clone ${position === 'vertical' ? 'vertical' : 'horizontal'} `}
                         style={handlebarClone}

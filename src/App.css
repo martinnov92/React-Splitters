@@ -24,6 +24,5 @@ body {
 
 .split {
   height: calc(100% - 50px); }
-
-.split .pane {
-  background-color: #fff; }
+  .split .pane {
+    background-color: #fff; }
