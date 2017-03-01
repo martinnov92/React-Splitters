@@ -1,7 +1,8 @@
 {
-  "name": "Splitters",
-  "version": "0.1.0",
+  "name": "m-react-splitters",
+  "version": "1.0.0",
   "private": true,
+  "homepage": "https://martinnov92.github.io/React-Splitters/",
   "devDependencies": {
     "node-sass": "^4.5.0",
     "npm-run-all": "^4.0.2",
