@@ -120,12 +120,18 @@ class Splitter extends React.Component<SplitterProps, SplitterState> {
         }
         unselectAll();
 
-        const { handleBarOffsetFromParent, 
-            maxMousePosInSplitterFromPercentage } = this.state;
-        const { position, primaryPaneMinWidth, 
-            primaryPaneMinHeight, postPoned } = this.props;
+        const { 
+            handleBarOffsetFromParent, 
+            maxMousePosInSplitterFromPercentage
+        } = this.state;
 
-        let primaryPanePosition;
+        const { 
+            position, 
+            primaryPaneMinWidth, 
+            primaryPaneMinHeight, 
+            postPoned 
+        } = this.props;
+
         let clientX;
         let clientY;
 
@@ -137,6 +143,7 @@ class Splitter extends React.Component<SplitterProps, SplitterState> {
             clientY = e.touches[0].clientY;
         }
 
+        let primaryPanePosition;
         switch (position) {
             case 'horizontal': {
                 if (clientY > maxMousePosInSplitterFromPercentage) {
@@ -164,9 +171,9 @@ class Splitter extends React.Component<SplitterProps, SplitterState> {
 
         if (postPoned) {
             this.setState({    
+                handleBarClonePosition: primaryPanePosition,
                 lastX: clientX,
                 lastY: clientY,
-                handleBarClonePosition: primaryPanePosition,
                 isVisible: true
             });
         } else {
@@ -191,7 +198,10 @@ class Splitter extends React.Component<SplitterProps, SplitterState> {
             return;
         }
 
-        const { handleBarOffsetFromParent, lastX, lastY } = this.state;
+        const { 
+            handleBarOffsetFromParent, 
+            lastX, lastY 
+        } = this.state;
 
         let primaryPanePosition;
         switch (this.props.position) {
@@ -250,14 +260,21 @@ class Splitter extends React.Component<SplitterProps, SplitterState> {
         /********************************
          * set width of primary pane according to props, or state
         ********************************/
-        const { children, position, 
-                primaryPaneMinWidth, primaryPaneWidth, primaryPaneMaxWidth,
-                primaryPaneMinHeight, primaryPaneHeight, primaryPaneMaxHeight, 
-                className, primaryPaneClassName, secondaryPaneClassName,
-                maximizedPrimaryPane, minimalizedPrimaryPane } = this.props;
-        let paneStyle;
-        let handlebarClone;
+        const { 
+            children, position, 
+            primaryPaneMinWidth, primaryPaneWidth, primaryPaneMaxWidth,
+            primaryPaneMinHeight, primaryPaneHeight, primaryPaneMaxHeight, 
+            className, primaryPaneClassName, secondaryPaneClassName,
+            maximizedPrimaryPane, minimalizedPrimaryPane, postPoned 
+        } = this.props;
 
+        const {
+            handleBarClonePosition,
+            primaryPane, 
+            isVisible
+        } = this.state;
+
+        let paneStyle;
         switch (position) {
             case 'vertical': {
                 if (maximizedPrimaryPane) {
@@ -274,7 +291,7 @@ class Splitter extends React.Component<SplitterProps, SplitterState> {
                     };
                 } else {
                     paneStyle = {
-                        width: this.state.primaryPane ? `${this.state.primaryPane}px` : primaryPaneWidth,
+                        width: primaryPane ? `${primaryPane}px` : primaryPaneWidth,
                         minWidth: primaryPaneMinWidth,
                         maxWidth: primaryPaneMaxWidth
                     };
@@ -296,7 +313,7 @@ class Splitter extends React.Component<SplitterProps, SplitterState> {
                     };
                 } else {
                     paneStyle = {
-                        height: this.state.primaryPane ? `${this.state.primaryPane}px` : primaryPaneHeight,
+                        height: primaryPane ? `${primaryPane}px` : primaryPaneHeight,
                         minHeight: primaryPaneMinHeight,
                         maxHeight: primaryPaneMaxHeight
                     };
@@ -313,11 +330,10 @@ class Splitter extends React.Component<SplitterProps, SplitterState> {
             };
         }
 
-        if (React.Children.count(this.props.children) > 1 && this.props.postPoned) {
+        let handlebarClone;
+        if (React.Children.count(children) > 1 && postPoned) {
             handlebarClone = {
-                position: 'absolute',
-                left: position === 'vertical' ? this.state.handleBarClonePosition + 'px' : 0,
-                top: position === 'horizontal' ? this.state.handleBarClonePosition + 'px' : 0,
+                [position === 'vertical' ? 'left' : 'top']: handleBarClonePosition + 'px'
             };
         }
 
@@ -347,7 +363,7 @@ class Splitter extends React.Component<SplitterProps, SplitterState> {
                 }
 
                 {
-                    this.state.isDragging && this.state.isVisible && this.props.postPoned
+                    postPoned && isVisible
                     ? <div 
                         className={`handle-bar handle-bar_clone ${position === 'vertical' ? 'vertical' : 'horizontal'} `}
                         style={handlebarClone}

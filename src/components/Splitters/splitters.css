@@ -48,8 +48,7 @@
   z-index: 20;
   background-color: #eeeff0;
   cursor: col-resize;
-  font-size: 14px;
-  background-clip: padding-box; }
+  font-size: 14px; }
 
 .handle-bar span {
   cursor: pointer; }
@@ -60,11 +59,11 @@
   min-height: 10px;
   cursor: row-resize; }
 
-.handle-bar:active, .handle-bar:hover {
+.handle-bar:active, .handle-bar:hover, .handle-bar.handle-bar_clone {
   background-color: #ccc; }
 
 .handle-bar.handle-bar_clone {
-  background-color: #ccc;
+  position: absolute;
   opacity: .9;
   z-index: 12000; }
 
