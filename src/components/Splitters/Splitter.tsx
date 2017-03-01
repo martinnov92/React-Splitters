@@ -9,6 +9,9 @@ import { unselectAll } from './Helpers';
 import { SplitterProps, SplitterState } from './index';
 import './splitters.css';
 
+// TODO: create callback function on drag finished,...
+// v nadřazené komponentě bude funkce, která bude obstarávat co se má stát po vyvolání callback funkce
+
 class Splitter extends React.Component<SplitterProps, SplitterState> {
     paneWrapper: any;
     panePrimary: any;

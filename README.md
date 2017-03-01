@@ -1,4 +1,5 @@
 # Splitters for React
+
 <b>This is still work in progress </b>
 <i>v. 1.0.0 alfa</i>
 
@@ -8,7 +9,9 @@ There are two options how the splitter can work.
 You can either select to resize splitters as you are holding and dragging the handlebar, or you can
 postponed the resize.
 
-Splitters can be nested, but you have to specify what positon are they going to be and their sizes.
+Splitters can be nested, but you have to specify what positions (vertical / horizontal) are they going to be and their sizes.
+
+Left pane's (primary) width is calculated by `JavaScript`, the other panel's width is set by `CSS`.
 
 Vertical splitter
 ```js
@@ -37,7 +40,31 @@ Another options for splitter are:
 * `dispatchResize`: Boolean
     
     * This dispatch resize event, it is meant for other components which resize on window resize
+    * it's something like temporary callback function
     * Default is false
 
 * `maximizedPrimaryPane`: Boolean
 * `minimalizedPrimaryPane`: Boolean
+
+```tsx
+    <Splitter
+        position="horizontal"
+        primaryPaneMaxHeight="80%"
+        primaryPaneMinHeight={0}
+        primaryPaneHeight="400px"
+        dispatchResize={true}
+        postPoned={true}
+          >    
+            <Splitter
+                position="vertical"
+                primaryPaneMaxWidth="80%"
+                primaryPaneMinWidth={0}
+                primaryPaneWidth="400px"
+                postPoned={false}
+            >    
+                <div></div>
+                <div></div>
+            </Splitter> 
+            <div></div>
+    </Splitter> 
+```
