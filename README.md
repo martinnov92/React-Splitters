@@ -3,6 +3,8 @@
 <b>This is still work in progress </b>
 <i>v. 1.0.0 alfa</i>
 
+[Demo](https://martinnov92.github.io/React-Splitters/)
+
 Splitters for React has been written in TypeScript.
 
 There are two options how the splitter can work.
