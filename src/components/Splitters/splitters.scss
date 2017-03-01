@@ -57,8 +57,11 @@
     cursor: col-resize;
     font-size: 14px;
 
-    span {
-        cursor: pointer;
+    .handle-bar_drag {
+        width: 4px;
+        height: 20px;
+        border-left: 1px solid rgba(0, 0, 0, 0.0980392);
+        border-right: 1px solid rgba(0, 0, 0, 0.0980392);
     }
 
     &.horizontal {
@@ -66,11 +69,18 @@
         height: 10px;
         min-height: 10px;
         cursor: row-resize;
+
+        .handle-bar_drag {
+            width: 20px;
+            height: 4px;
+            border-top: 1px solid rgba(0, 0, 0, 0.0980392);
+            border-bottom: 1px solid rgba(0, 0, 0, 0.0980392);
+        }
     }
 
     &:active,
     &:hover,
-    &.handle-bar_clone  {
+    &.handle-bar_clone {
         background-color: #ccc;
     }
 

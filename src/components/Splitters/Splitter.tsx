@@ -5,7 +5,6 @@ import * as ReactDOM from 'react-dom';
 ********************************/
 import Pane from './Pane';
 import HandleBar from './HandleBar';
-import './splitters.css';
 import { unselectAll } from './Helpers';
 import { SplitterProps, SplitterState } from './index';
 
@@ -27,8 +26,8 @@ class Splitter extends React.Component<SplitterProps, SplitterState> {
     }
 
     getSize() {
-        /********************************/
-        // This function calculate the max position of a mouse in the current splitter.
+        /********************************
+        * This function calculates the max position of a mouse in the current splitter from given percentage.
         /********************************/
         let maxMousePosInSplitterFromPercentage;
         let nodeWrapperSize;
@@ -68,16 +67,14 @@ class Splitter extends React.Component<SplitterProps, SplitterState> {
 
     handleMouseDown(e: any) {
         /********************************
-        * If the button someone clicked is right button => function stops
+        * If the right button was clicked - stop the function
         * If there is more then one pane, we get the sizes of panes + max pos of mouse in splitter
-        * state is set to isDragging on mouse down and the offset of handlebar from parent element
-        * is calculated and saved to state
         * add event listener for touch move and mouse move
         ********************************/
         if (e.button === 2) {
             return;
-        }     
-        
+        }
+
         if (React.Children.count(this.props.children) > 1) {
             this.getSize();
         }
@@ -99,8 +96,8 @@ class Splitter extends React.Component<SplitterProps, SplitterState> {
         } else if (this.props.position === 'vertical') {
             handleBarOffsetFromParent = clientX - e.target.offsetLeft;
         }
-        
-        this.setState({  
+
+        this.setState({
             isDragging: true,
             handleBarOffsetFromParent
         });
@@ -112,24 +109,24 @@ class Splitter extends React.Component<SplitterProps, SplitterState> {
         /********************************
         * check if the state is still isDragging, if not, stop the function
         * unselectAll - unselect all selected text
-        * check position of mouse in splitter and and set the width, or height of primary pane
+        * check position of mouse in the splitter and and set the width or height of primary pane
         * save last positions of X and Y coords (that is necessary for touch screen)
         ********************************/
         if (!this.state.isDragging) {
-          return;  
+            return;
         }
         unselectAll();
 
-        const { 
-            handleBarOffsetFromParent, 
+        const {
+            handleBarOffsetFromParent,
             maxMousePosInSplitterFromPercentage
         } = this.state;
 
-        const { 
-            position, 
-            primaryPaneMinWidth, 
-            primaryPaneMinHeight, 
-            postPoned 
+        const {
+            position,
+            primaryPaneMinWidth,
+            primaryPaneMinHeight,
+            postPoned
         } = this.props;
 
         let clientX;
@@ -155,13 +152,13 @@ class Splitter extends React.Component<SplitterProps, SplitterState> {
                 }
                 break;
             }
-            case 'vertical': 
+            case 'vertical':
             default: {
                 if (clientX > maxMousePosInSplitterFromPercentage) {
                     primaryPanePosition = maxMousePosInSplitterFromPercentage - handleBarOffsetFromParent;
                     // TODO: blink the handlebar on max size
                 } else if ((clientX - handleBarOffsetFromParent) <= primaryPaneMinWidth) {
-                    primaryPanePosition =  primaryPaneMinWidth + 0.001;
+                    primaryPanePosition = primaryPaneMinWidth + 0.001;
                 } else {
                     primaryPanePosition = clientX - handleBarOffsetFromParent;
                 }
@@ -170,14 +167,14 @@ class Splitter extends React.Component<SplitterProps, SplitterState> {
         }
 
         if (postPoned) {
-            this.setState({    
+            this.setState({
                 handleBarClonePosition: primaryPanePosition,
                 lastX: clientX,
                 lastY: clientY,
                 isVisible: true
             });
         } else {
-            this.setState({    
+            this.setState({
                 primaryPane: primaryPanePosition,
                 lastX: clientX,
                 lastY: clientY
@@ -187,20 +184,15 @@ class Splitter extends React.Component<SplitterProps, SplitterState> {
 
     handleMouseUp() {
         /********************************
-        * check if the state is still isDragging, if not, stop the function
-        * check position of mouse in splitter and and set the width, or height of primary pane
-        *** I had to do this here as well, because sometimes mouse gets out of viewport and the width 
-        *** was set to 3000px,...
         * Dispatch event is for components which resizes on window resize
-        * and last step is to check sizes
         ********************************/
         if (!this.state.isDragging) {
             return;
         }
 
-        const { 
-            handleBarOffsetFromParent, 
-            lastX, lastY 
+        const {
+            handleBarOffsetFromParent,
+            lastX, lastY
         } = this.state;
 
         let primaryPanePosition;
@@ -215,7 +207,7 @@ class Splitter extends React.Component<SplitterProps, SplitterState> {
                 }
                 break;
             }
-            case 'vertical': 
+            case 'vertical':
             default: {
                 if (lastX >= this.state.maxMousePosInSplitterFromPercentage) {
                     primaryPanePosition = this.state.maxMousePosInSplitterFromPercentage - handleBarOffsetFromParent;
@@ -230,11 +222,11 @@ class Splitter extends React.Component<SplitterProps, SplitterState> {
         }
 
         if (this.props.postPoned) {
-           this.setState({
+            this.setState({
                 isDragging: false,
                 isVisible: false,
-                primaryPane: primaryPanePosition //lastX, nebo lastY???
-            });         
+                primaryPane: primaryPanePosition
+            });
         } else {
             this.setState({
                 isDragging: false,
@@ -260,17 +252,17 @@ class Splitter extends React.Component<SplitterProps, SplitterState> {
         /********************************
          * set width of primary pane according to props, or state
         ********************************/
-        const { 
-            children, position, 
+        const {
+            children, position,
             primaryPaneMinWidth, primaryPaneWidth, primaryPaneMaxWidth,
-            primaryPaneMinHeight, primaryPaneHeight, primaryPaneMaxHeight, 
+            primaryPaneMinHeight, primaryPaneHeight, primaryPaneMaxHeight,
             className, primaryPaneClassName, secondaryPaneClassName,
-            maximizedPrimaryPane, minimalizedPrimaryPane, postPoned 
+            maximizedPrimaryPane, minimalizedPrimaryPane, postPoned
         } = this.props;
 
         const {
             handleBarClonePosition,
-            primaryPane, 
+            primaryPane,
             isVisible
         } = this.state;
 
@@ -321,7 +313,7 @@ class Splitter extends React.Component<SplitterProps, SplitterState> {
                 break;
             }
         }
-           
+
         if (!children[1]) {
             var onePaneStyle: any = {
                 width: '100%',
@@ -338,50 +330,50 @@ class Splitter extends React.Component<SplitterProps, SplitterState> {
         }
 
         return (
-            <div 
-                className={`splitter ${ position === 'vertical' ? 'vertical' : 'horizontal' } ${ className || ''}`} 
-                style={onePaneStyle !== 'undefined' ? onePaneStyle : null} 
+            <div
+                className={`splitter ${position === 'vertical' ? 'vertical' : 'horizontal'} ${className || ''}`}
+                style={onePaneStyle !== 'undefined' ? onePaneStyle : null}
                 ref={node => this.paneWrapper = node}
             >
-                <Pane 
+                <Pane
                     className={`primary ${primaryPaneClassName || ''}`}
-                    position={position} 
-                    style={paneStyle} 
+                    position={position}
+                    style={paneStyle}
                     ref={(node) => this.panePrimary = node}
                 >
                     {!children[1] ? children : children[0]}
                 </Pane>
-                
+
                 {
-                    children[1] 
-                    ? <HandleBar 
-                        position={position} 
-                        handleMouseDown={this.handleMouseDown} 
-                        ref={node => this.handlebar = node} 
-                    /> 
-                    : null
+                    children[1]
+                        ? <HandleBar
+                            position={position}
+                            handleMouseDown={this.handleMouseDown}
+                            ref={node => this.handlebar = node}
+                        />
+                        : null
                 }
 
                 {
                     postPoned && isVisible
-                    ? <div 
-                        className={`handle-bar handle-bar_clone ${position === 'vertical' ? 'vertical' : 'horizontal'} `}
-                        style={handlebarClone}
-                    />
-                    : null
+                        ? <div
+                            className={`handle-bar handle-bar_clone ${position === 'vertical' ? 'vertical' : 'horizontal'} `}
+                            style={handlebarClone}
+                        />
+                        : null
                 }
 
                 {
-                    children[1] 
-                    ? <Pane 
-                        className={secondaryPaneClassName || ''}
-                        position={position} 
-                        hasDetailPane={this.props.hasDetailPane} 
-                        ref={node => this.paneNotPrimary = node}
-                    > 
-                        {children[1]} 
-                    </Pane> 
-                    : null
+                    children[1]
+                        ? <Pane
+                            className={secondaryPaneClassName || ''}
+                            position={position}
+                            hasDetailPane={this.props.hasDetailPane}
+                            ref={node => this.paneNotPrimary = node}
+                        >
+                            {children[1]}
+                        </Pane>
+                        : null
                 }
             </div>
         );
