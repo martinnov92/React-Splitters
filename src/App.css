@@ -23,8 +23,7 @@ body {
   background-color: #fff; }
 
 .splitter-wrapper {
-  height: calc(100% - 50px);
-  padding: 10px; }
+  height: 100%; }
 
 .split .pane {
   background-color: #fff; }

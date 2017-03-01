@@ -1,7 +1,5 @@
 import * as React from 'react';
 import Splitter from './components/Splitters/Splitter';
-import ToggleButton from './components/ToggleButton/ToggleButton';
-import Example from './AdGrid';
 
 interface AppState {
   maxPrimaryPane?: Boolean
@@ -19,13 +17,6 @@ class App extends React.Component<null, AppState> {
   render() {
     return (
       <div className="app">
-        <div className="top-panel">
-          <ToggleButton
-            label="Right side"
-            handleChange={this.maxPrimaryPane.bind(this)}
-            dispatchResize={true}
-          />
-        </div>
         <div className="splitter-wrapper">
           <Splitter
             position="horizontal"
@@ -35,8 +26,7 @@ class App extends React.Component<null, AppState> {
             dispatchResize={true}
             maximizedPrimaryPane={this.state.maxPrimaryPane}
             minimalizedPrimaryPane={false}
-            postPoned={true}
-            hasDetailPane={true}
+            postPoned={false}
             className="split"
           >            
             <Splitter
@@ -47,14 +37,10 @@ class App extends React.Component<null, AppState> {
                 dispatchResize={true}
                 postPoned={true}
               >
-                <div>
-                  <Example />
-                </div>
+                <div />
                 <div />
             </Splitter>
-            <div>
-              <Example />
-            </div> 
+            <div />
           </Splitter>         
         </div>
       </div>
