@@ -6,10 +6,6 @@
     box-sizing: border-box;
 }
 
-body {
-    background-color: #f9f9f9;
-}
-
 #root {
     width: 100vw;
     height: 100vh;
@@ -22,18 +18,11 @@ body {
     position: relative;
 }
 
-.top-panel {
-    width: 100%;
-    height: 50px;
-    background-color: #fff;
-}
-
 .splitter-wrapper {
     height: 100%;
 }
 
 .split {
-    height: 100%;
     .pane {
         background-color: #fff;
     }
