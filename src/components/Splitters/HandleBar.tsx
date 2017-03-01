@@ -10,9 +10,7 @@ class HandleBar extends React.Component<HandleBarProps, {}> {
                 onMouseDown={(e) => handleMouseDown(e)} 
                 onTouchStart={(e) => handleMouseDown(e)}
             >
-                <span className="arrow">
-                    <i className={`fa fa-ellipsis-v ${position === 'horizontal' ? 'rotate-90' : ''}`} />
-                </span>
+                <span className="handle-bar_drag" />
             </div>
         );
     }
