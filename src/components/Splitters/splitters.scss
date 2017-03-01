@@ -56,6 +56,7 @@
     background-color: #eeeff0;
     cursor: col-resize;
     font-size: 14px;
+    background-clip: padding-box;
 
     span {
         cursor: pointer;
@@ -76,6 +77,7 @@
     &.handle-bar_clone {
         background-color: #ccc;
         opacity: .9;
+        z-index: 12000;
     }
 }
 

@@ -27,7 +27,9 @@ export interface SplitterState {
     primaryPane?: number | any;
     lastX?: number | any;
     lastY?: number | any;
+    handleBarClonePos?: number | any;
     isVisible?: Boolean;
+    handleBarClonePosition?: number;
 }
 
 // ------ Pane interfaces

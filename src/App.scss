@@ -28,8 +28,12 @@ body {
     background-color: #fff;
 }
 
-.split {
+.splitter-wrapper {
     height: calc(100% - 50px);
+    padding: 10px;
+}
+
+.split {
     .pane {
         background-color: #fff;
     }

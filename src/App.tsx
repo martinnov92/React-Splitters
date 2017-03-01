@@ -26,7 +26,7 @@ class App extends React.Component<null, AppState> {
             dispatchResize={true}
           />
         </div>
-        <div style={{padding: "10px", width: "100%", height: "100%"}}>
+        <div className="splitter-wrapper">
           <Splitter
             position="horizontal"
             primaryPaneMaxHeight="80%"
@@ -41,7 +41,7 @@ class App extends React.Component<null, AppState> {
           >            
             <Splitter
                 position="vertical"
-                primaryPaneMaxWidth="80%"
+                primaryPaneMaxWidth="70%"
                 primaryPaneMinWidth={0}
                 primaryPaneWidth="400px"
                 dispatchResize={true}

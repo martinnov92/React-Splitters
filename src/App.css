@@ -22,7 +22,9 @@ body {
   height: 50px;
   background-color: #fff; }
 
-.split {
-  height: calc(100% - 50px); }
-  .split .pane {
-    background-color: #fff; }
+.splitter-wrapper {
+  height: calc(100% - 50px);
+  padding: 10px; }
+
+.split .pane {
+  background-color: #fff; }
