@@ -25,5 +25,8 @@ body {
 .splitter-wrapper {
   height: 100%; }
 
+.split {
+  height: 100%; }
+
 .split .pane {
   background-color: #fff; }

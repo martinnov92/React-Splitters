@@ -7,6 +7,7 @@ import Pane from './Pane';
 import HandleBar from './HandleBar';
 import { unselectAll } from './Helpers';
 import { SplitterProps, SplitterState } from './index';
+import './splitters.css';
 
 class Splitter extends React.Component<SplitterProps, SplitterState> {
     paneWrapper: any;
