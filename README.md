@@ -54,17 +54,17 @@ Another options for splitter are:
     primaryPaneHeight="400px"
     dispatchResize={true}
     postPoned={true}
-        >    
-        <Splitter
-            position="vertical"
-            primaryPaneMaxWidth="80%"
-            primaryPaneMinWidth={0}
-            primaryPaneWidth="400px"
-            postPoned={false}
-        >    
-            <div></div>
-            <div></div>
-        </Splitter> 
+>    
+    <Splitter
+        position="vertical"
+        primaryPaneMaxWidth="80%"
+        primaryPaneMinWidth={0}
+        primaryPaneWidth="400px"
+        postPoned={false}
+    >    
         <div></div>
+        <div></div>
+    </Splitter> 
+    <div></div>
 </Splitter> 
 ```
