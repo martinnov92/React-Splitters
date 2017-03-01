@@ -47,24 +47,24 @@ Another options for splitter are:
 * `minimalizedPrimaryPane`: Boolean
 
 ```tsx
-    <Splitter
-        position="horizontal"
-        primaryPaneMaxHeight="80%"
-        primaryPaneMinHeight={0}
-        primaryPaneHeight="400px"
-        dispatchResize={true}
-        postPoned={true}
-          >    
-            <Splitter
-                position="vertical"
-                primaryPaneMaxWidth="80%"
-                primaryPaneMinWidth={0}
-                primaryPaneWidth="400px"
-                postPoned={false}
-            >    
-                <div></div>
-                <div></div>
-            </Splitter> 
+<Splitter
+    position="horizontal"
+    primaryPaneMaxHeight="80%"
+    primaryPaneMinHeight={0}
+    primaryPaneHeight="400px"
+    dispatchResize={true}
+    postPoned={true}
+        >    
+        <Splitter
+            position="vertical"
+            primaryPaneMaxWidth="80%"
+            primaryPaneMinWidth={0}
+            primaryPaneWidth="400px"
+            postPoned={false}
+        >    
             <div></div>
-    </Splitter> 
+            <div></div>
+        </Splitter> 
+        <div></div>
+</Splitter> 
 ```
