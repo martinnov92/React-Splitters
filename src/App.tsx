@@ -1,5 +1,6 @@
 import * as React from 'react';
-import Splitter from './components/Splitters/Splitter';
+import * as Splitter from '../lib/index';
+import '../lib/splitters.css';
 
 interface AppState {
   maxPrimaryPane?: Boolean
