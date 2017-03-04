@@ -29,10 +29,8 @@
     "@types/jest": "^18.1.1",
     "@types/node": "^7.0.5",
     "@types/react": "^15.0.13",
-    "@types/react-data-grid": "^1.0.7",
     "@types/react-dom": "^0.14.23",
     "react": "^15.4.2",
-    "react-data-grid": "^2.0.17",
     "react-dom": "^15.4.2"
   },
   "scripts": {
