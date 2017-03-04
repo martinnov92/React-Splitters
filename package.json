@@ -7,6 +7,7 @@
   "license": "MIT",
   "author": "Martin Novák <martinnovak@outlook.com>",
   "description": "Splitter component for React, written in TypeScript",
+  "typings": "./index.d.ts",
   "repository": {
     "type": "git",
     "url": "https://github.com/martinnov92/React-Splitters"
