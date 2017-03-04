@@ -1,5 +1,5 @@
 import * as React from 'react';
-import * as Splitter from '../lib/index';
+import * as Splitter from '../index';
 import '../lib/splitters.css';
 
 interface AppState {
