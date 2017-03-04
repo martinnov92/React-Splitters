@@ -1,5 +1,6 @@
 import * as React from 'react';
-import * as Splitter from '../index';
+
+const Splitter = require("m-react-splitters");
 import '../lib/splitters.css';
 
 interface AppState {
