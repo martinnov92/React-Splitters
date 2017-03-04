@@ -2,7 +2,7 @@
   "name": "m-react-splitters",
   "version": "0.0.1",
   "private": false,
-  "main": "./lib/index.js",
+  "main": "./lib/index",
   "homepage": "https://martinnov92.github.io/React-Splitters/",
   "license": "MIT",
   "author": "Martin Novák <martinnovak@outlook.com>",
