@@ -1,3 +1,4 @@
 var Splitter = require("./lib/Splitter");
 
-module.exports = Splitter.default;
+exports.default = Splitter;
+module.exports = exports["default"];
