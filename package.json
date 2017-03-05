@@ -35,7 +35,7 @@
     "react-dom": "^15.4.2"
   },
   "scripts": {
-    "tsc-compile": "tsc ./src/components/Splitters/*.ts --outDir ./lib --jsx react --target ES5",
+    "tsc-compile": "tsc ./src/components/Splitters/*.tsx --outDir ./lib --jsx react --target ES5",
     "build-css": "node-sass src/ -o src/",
     "watch-css": "npm run build-css && node-sass src/ -o src/ --watch",
     "start-js": "react-scripts-ts start",
