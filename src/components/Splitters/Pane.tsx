@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { PaneProps } from './index';
+import { PaneProps } from './typings/index';
 
 class Pane extends React.Component<PaneProps, {}> {
     render() {

@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { HandleBarProps } from './index';
+import { HandleBarProps } from './typings/index';
 
 class HandleBar extends React.Component<HandleBarProps, {}> {
     render() {

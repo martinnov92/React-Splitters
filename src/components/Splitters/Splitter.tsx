@@ -6,7 +6,7 @@ import * as ReactDOM from 'react-dom';
 import Pane from './Pane';
 import HandleBar from './HandleBar';
 import { unselectAll } from './Helpers';
-import { SplitterProps, SplitterState } from './index';
+import { SplitterProps, SplitterState } from './typings/index';
 // import './splitters.css';
 
 // TODO: 
@@ -14,7 +14,7 @@ import { SplitterProps, SplitterState } from './index';
 //   v nadřazené komponentě bude funkce, která bude obstarávat co se má stát po vyvolání callback funkce
 // * uložit stav splitteru do localStorage,nebo někam jinam, bude na to callback funkce
 
-class Splitter extends React.Component<SplitterProps, SplitterState> {
+export class Splitter extends React.Component<SplitterProps, SplitterState> {
     paneWrapper: any;
     panePrimary: any;
     handlebar: any;
@@ -385,5 +385,3 @@ class Splitter extends React.Component<SplitterProps, SplitterState> {
         );
     }
 }
-
-export default Splitter;
