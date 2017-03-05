@@ -1,55 +1,48 @@
-﻿import * as React from 'react';
+﻿// ------ Splitter interfaces
+export type handlePositionType = 'vertical' | 'horizontal'; 
 
-declare module 'm-react-splitters' {
-    class Splitter extends React.Component<SplitterProps, SplitterState> {
+export interface SplitterProps {
+    children?: {} | any;
+    position: handlePositionType;
+    hasDetailPane?: boolean;
+    primaryPaneMinWidth?: number | any; 
+    primaryPaneWidth?: string | any; 
+    primaryPaneMaxWidth?: string | any;
+    primaryPaneMinHeight?: number | any; 
+    primaryPaneHeight?: string | any; 
+    primaryPaneMaxHeight?: string | any;
+    className?: string; 
+    primaryPaneClassName?: string; 
+    secondaryPaneClassName?: string;
+    dispatchResize?: Boolean;
+    maximizedPrimaryPane?: Boolean;
+    minimalizedPrimaryPane?: Boolean;
+    postPoned?: Boolean;
+}
 
-    }
-    // ------ Splitter interfaces
-    export type handlePositionType = 'vertical' | 'horizontal'; 
+export interface SplitterState {
+    isDragging?: boolean;
+    maxMousePosInSplitterFromPercentage?: number | any;
+    handleBarOffsetFromParent?: number | any;
+    primaryPane?: number | any;
+    lastX?: number | any;
+    lastY?: number | any;
+    handleBarClonePos?: number | any;
+    isVisible?: Boolean;
+    handleBarClonePosition?: number;
+}
 
-    export interface SplitterProps {
-        children?: {} | any;
-        position: handlePositionType;
-        hasDetailPane?: boolean;
-        primaryPaneMinWidth?: number | any; 
-        primaryPaneWidth?: string | any; 
-        primaryPaneMaxWidth?: string | any;
-        primaryPaneMinHeight?: number | any; 
-        primaryPaneHeight?: string | any; 
-        primaryPaneMaxHeight?: string | any;
-        className?: string; 
-        primaryPaneClassName?: string; 
-        secondaryPaneClassName?: string;
-        dispatchResize?: Boolean;
-        maximizedPrimaryPane?: Boolean;
-        minimalizedPrimaryPane?: Boolean;
-        postPoned?: Boolean;
-    }
+// ------ Pane interfaces
+export interface PaneProps {
+    position: handlePositionType;
+    hasDetailPane?: boolean;
+    id?: string;
+    style?: CSSStyleRule | any;
+    className?: string;
+}
 
-    export interface SplitterState {
-        isDragging?: boolean;
-        maxMousePosInSplitterFromPercentage?: number | any;
-        handleBarOffsetFromParent?: number | any;
-        primaryPane?: number | any;
-        lastX?: number | any;
-        lastY?: number | any;
-        handleBarClonePos?: number | any;
-        isVisible?: Boolean;
-        handleBarClonePosition?: number;
-    }
-
-    // ------ Pane interfaces
-    export interface PaneProps {
-        position: handlePositionType;
-        hasDetailPane?: boolean;
-        id?: string;
-        style?: CSSStyleRule | any;
-        className?: string;
-    }
-
-    // ------ Handlebar interfaces
-    export interface HandleBarProps {
-        position: handlePositionType;
-        handleMouseDown?: Function | any;
-    }
+// ------ Handlebar interfaces
+export interface HandleBarProps {
+    position: handlePositionType;
+    handleMouseDown?: Function | any;
 }
