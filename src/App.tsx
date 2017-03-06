@@ -1,7 +1,6 @@
 import * as React from 'react';
 
-import * as Splitter from '../lib/index';
-import '../lib/splitters.css';
+import Splitter from './components/Splitters';
 
 interface AppState {
   maxPrimaryPane?: Boolean
@@ -16,6 +15,9 @@ class App extends React.Component<null, AppState> {
       maxPrimaryPane: !this.state.maxPrimaryPane
     });
   }
+  onDragFinishedCallback() {
+    console.log("callback");
+  }
   render() {
     return (
       <div className="app">
@@ -29,6 +31,7 @@ class App extends React.Component<null, AppState> {
             maximizedPrimaryPane={this.state.maxPrimaryPane}
             minimalizedPrimaryPane={false}
             postPoned={false}
+            onDragFinished={this.onDragFinishedCallback}
             className="split"
           >            
             <Splitter
@@ -36,6 +39,7 @@ class App extends React.Component<null, AppState> {
                 primaryPaneMaxWidth="70%"
                 primaryPaneMinWidth={0}
                 primaryPaneWidth="400px"
+                onDragFinished={this.onDragFinishedCallback}
                 dispatchResize={true}
                 postPoned={true}
               >
@@ -49,6 +53,7 @@ class App extends React.Component<null, AppState> {
                   primaryPaneMaxWidth="80%"
                   primaryPaneMinWidth={0}
                   primaryPaneWidth="400px"
+                  onDragFinished={this.onDragFinishedCallback}
                   postPoned={false}
               >    
                   <div className="placeholder _2">

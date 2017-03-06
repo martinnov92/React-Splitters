@@ -7,11 +7,9 @@ import Pane from './Pane';
 import HandleBar from './HandleBar';
 import { unselectAll } from './Helpers';
 import { SplitterProps, SplitterState } from './typings/index';
-// import './splitters.css';
+import './splitters.css';
 
 // TODO: 
-// * create callback function on drag finished,...
-//   v nadřazené komponentě bude funkce, která bude obstarávat co se má stát po vyvolání callback funkce
 // * uložit stav splitteru do localStorage,nebo někam jinam, bude na to callback funkce
 
 class Splitter extends React.Component<SplitterProps, SplitterState> {
@@ -247,6 +245,11 @@ class Splitter extends React.Component<SplitterProps, SplitterState> {
         // TODO: add this event for IE11
         if (this.props.dispatchResize) {
             window.dispatchEvent(new Event('resize'));
+        }
+
+        // callback function from parent component
+        if (typeof this.props.onDragFinished === 'function') {
+            this.props.onDragFinished();
         }
 
         if (React.Children.count(this.props.children) > 1) {

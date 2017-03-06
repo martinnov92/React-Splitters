@@ -18,6 +18,7 @@ export interface SplitterProps {
     maximizedPrimaryPane?: Boolean;
     minimalizedPrimaryPane?: Boolean;
     postPoned?: Boolean;
+    onDragFinished?: Function;
 }
 
 export interface SplitterState {
