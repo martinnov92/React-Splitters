@@ -1,7 +1,7 @@
 # Splitters for React
 
 <b>This is still work in progress </b>
-<i>v. 1.0.0 alfa</i>
+<i>v. 0.0.3</i>
 
 [Demo](https://martinnov92.github.io/React-Splitters/)
 
@@ -14,6 +14,17 @@ postponed the resize.
 Splitters can be nested, but you have to specify what positions (vertical / horizontal) are they going to be and their sizes.
 
 Left pane's (primary) width is calculated by `JavaScript`, the other panel's width is set by `CSS`.
+
+Usage in your projects:
+Please import splitters like this:
+
+```
+import Splitter from 'm-react-splitters/lib';
+import 'm-react-splitters/lib/splitters.css';
+```
+
+I am still working on typescript definition file, so if you are using TypeScript, please instead of using `import` use `require`, otherwise you will get error.
+If anyone want to help my with TypeScript definition, feel free to send me an e-mail :).
 
 Vertical splitter
 ```js
@@ -44,6 +55,10 @@ Another options for splitter are:
     * This dispatch resize event, it is meant for other components which resize on window resize
     * it's something like temporary callback function
     * Default is false
+
+    * or you can use:
+        
+        `onDragFinished`: function
 
 * `maximizedPrimaryPane`: Boolean
 * `minimalizedPrimaryPane`: Boolean

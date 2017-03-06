@@ -1,6 +1,6 @@
 {
   "name": "m-react-splitters",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "private": false,
   "main": "./lib/index",
   "homepage": "https://martinnov92.github.io/React-Splitters/",
@@ -17,6 +17,7 @@
     "react-splitter",
     "component",
     "splitter",
+    "splitters",
     "typescript",
     "ts",
     "es6"
