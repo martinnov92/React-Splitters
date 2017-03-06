@@ -243,7 +243,7 @@ class Splitter extends React.Component<SplitterProps, SplitterState> {
 
         // call resize event to trigger method for updating of DataGrid width
         // TODO: add this event for IE11
-        if (this.props.dispatchResize) {
+        if (typeof this.props.dispatchResize === "boolean") {
             window.dispatchEvent(new Event('resize'));
         }
 
