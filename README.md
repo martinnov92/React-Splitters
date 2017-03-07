@@ -7,6 +7,8 @@
 
 Splitters for React has been written in TypeScript.
 
+This splitter supports touch screens.
+
 There are two options how the splitter can work.
 You can either select to resize splitters as you are holding and dragging the handlebar, or you can
 postponed the resize.
@@ -24,7 +26,14 @@ import 'm-react-splitters/lib/splitters.css';
 ```
 
 I am still working on typescript definition file, so if you are using TypeScript, please instead of using `import` use `require`, otherwise you will get error.
-If anyone want to help my with TypeScript definition, feel free to send me an e-mail :).
+If anyone want to help my with TypeScript definition, feel free to do it 😀 💩.
+
+Vertical splitter
+```js
+primaryPaneMinWidth={number}
+primaryPaneMaxWidth="string" (% or px)
+primaryPaneWidth="string" (% or px)
+```
 
 Vertical splitter
 ```js
