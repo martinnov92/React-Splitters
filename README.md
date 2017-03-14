@@ -5,6 +5,12 @@
 
 [Demo](https://martinnov92.github.io/React-Splitters/)
 
+[NPM](https://www.npmjs.com/package/m-react-splitters)
+
+Install: `npm install --save m-react-splitters` 
+
+---------
+
 Splitters for React has been written in TypeScript.
 
 This splitter supports touch screens.
