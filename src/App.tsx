@@ -24,7 +24,7 @@ class App extends React.Component<null, AppState> {
         <div className="splitter-wrapper">
           <Splitter
             position="horizontal"
-            primaryPaneMaxHeight="80%"
+            primaryPaneMaxHeight="500px"
             primaryPaneMinHeight={0}
             primaryPaneHeight="400px"
             dispatchResize={true}
@@ -36,12 +36,13 @@ class App extends React.Component<null, AppState> {
           >            
             <Splitter
                 position="vertical"
-                primaryPaneMaxWidth="70%"
+                primaryPaneMaxWidth="80%"
                 primaryPaneMinWidth={0}
                 primaryPaneWidth="400px"
                 onDragFinished={this.onDragFinishedCallback}
                 dispatchResize={true}
-                postPoned={true}
+                postPoned={false}
+                allowResize={false}
               >
               <div className="placeholder _1">
                 <span>1</span>
@@ -50,7 +51,7 @@ class App extends React.Component<null, AppState> {
               </div>
               <Splitter
                   position="vertical"
-                  primaryPaneMaxWidth="80%"
+                  primaryPaneMaxWidth="100%"
                   primaryPaneMinWidth={0}
                   primaryPaneWidth="400px"
                   onDragFinished={this.onDragFinishedCallback}

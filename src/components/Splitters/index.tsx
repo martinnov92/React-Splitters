@@ -29,37 +29,52 @@ class Splitter extends React.Component<SplitterProps, SplitterState> {
         };
     }
 
-    getSize() {
+    getSize(target?:any) {
+        console.log(target.getBoundingClientRect());
         /********************************
         * This function calculates the max position of a mouse in the current splitter from given percentage.
         /********************************/
-        let maxMousePosInSplitterFromPercentage;
+        let maxMousePosition;
         let nodeWrapperSize;
         let primaryPaneOffset;
         let wrapper = ReactDOM.findDOMNode(this.paneWrapper).getBoundingClientRect();
         let primaryPane = ReactDOM.findDOMNode(this.panePrimary).getBoundingClientRect();
         let handleBarSize = ReactDOM.findDOMNode(this.handlebar).getBoundingClientRect();
 
-        // !!!!!!!!!
-        // const getMaxSizeFromProps = zjistit, jestli se jedná o px, nebo %,
-        // podle toho přizpůsobit výpočet maxMousePosInSplitterFromPercentage
-        // !!!!!!!!!
-
-        // TODO: accept pxs as primaryPaneMaxWidth    
+        // find only letters from string
+        const regEx = new RegExp(/\D+/gi);
+         
         if (this.props.position === 'vertical') {
+            // split the maxWidth/maxHeight string to string and numbers
+            let maxWidthStr = this.props.primaryPaneMaxWidth.match(regEx)[0].toLowerCase();
+            let maxWidthNum = parseFloat(this.props.primaryPaneMaxWidth.split(regEx)[0]);
             nodeWrapperSize = wrapper.width;
             primaryPaneOffset = primaryPane.left;
-            maxMousePosInSplitterFromPercentage =
-                Math.floor((nodeWrapperSize * (parseFloat(this.props.primaryPaneMaxWidth.replace('%', '')) / 100)) + primaryPaneOffset + handleBarSize.width);
+
+            if (maxWidthStr === "%") {
+                maxMousePosition =
+                    Math.floor((nodeWrapperSize * (maxWidthNum / 100)) + primaryPaneOffset - handleBarSize.width);
+            } else if (maxWidthStr === "px") {
+                maxMousePosition =
+                    Math.floor((maxWidthNum + primaryPaneOffset) - handleBarSize.width);
+            }
         } else {
+            let maxHeightStr = this.props.primaryPaneMaxHeight.match(regEx)[0].toLowerCase();
+            let maxHeightNum = parseFloat(this.props.primaryPaneMaxHeight.split(regEx)[0]);
             nodeWrapperSize = wrapper.height;
             primaryPaneOffset = primaryPane.top;
-            maxMousePosInSplitterFromPercentage =
-                Math.floor((nodeWrapperSize * (parseFloat(this.props.primaryPaneMaxHeight.replace('%', '')) / 100)) + primaryPaneOffset + handleBarSize.height);
+
+            if (maxHeightStr === "%") {
+                maxMousePosition =
+                    Math.floor((nodeWrapperSize * (maxHeightNum / 100)) + primaryPaneOffset + handleBarSize.height);
+            } else if (maxHeightStr === "px") {
+                maxMousePosition =
+                    Math.floor((maxHeightNum + primaryPaneOffset) - handleBarSize.height);
+            }
         }
 
         this.setState({
-            maxMousePosInSplitterFromPercentage
+            maxMousePosition
         });
     }
 
@@ -81,12 +96,12 @@ class Splitter extends React.Component<SplitterProps, SplitterState> {
         * If there is more then one pane, we get the sizes of panes + max pos of mouse in splitter
         * add event listener for touch move and mouse move
         ********************************/
-        if (e.button === 2) {
+        if (e.button === 2 || this.props.allowResize === false) {
             return;
         }
 
         if (React.Children.count(this.props.children) > 1) {
-            this.getSize();
+            this.getSize(e.target);
         }
 
         let handleBarOffsetFromParent;
@@ -129,7 +144,7 @@ class Splitter extends React.Component<SplitterProps, SplitterState> {
 
         const {
             handleBarOffsetFromParent,
-            maxMousePosInSplitterFromPercentage
+            maxMousePosition
         } = this.state;
 
         const {
@@ -153,8 +168,8 @@ class Splitter extends React.Component<SplitterProps, SplitterState> {
         let primaryPanePosition;
         switch (position) {
             case 'horizontal': {
-                if (clientY > maxMousePosInSplitterFromPercentage) {
-                    primaryPanePosition = maxMousePosInSplitterFromPercentage - handleBarOffsetFromParent;
+                if (clientY > maxMousePosition) {
+                    primaryPanePosition = maxMousePosition - handleBarOffsetFromParent;
                 } else if ((clientY - handleBarOffsetFromParent) <= primaryPaneMinHeight) {
                     primaryPanePosition = primaryPaneMinHeight + 0.001;
                 } else {
@@ -164,8 +179,8 @@ class Splitter extends React.Component<SplitterProps, SplitterState> {
             }
             case 'vertical':
             default: {
-                if (clientX > maxMousePosInSplitterFromPercentage) {
-                    primaryPanePosition = maxMousePosInSplitterFromPercentage - handleBarOffsetFromParent;
+                if (clientX > maxMousePosition) {
+                    primaryPanePosition = maxMousePosition - handleBarOffsetFromParent;
                     // TODO: blink the handlebar on max size
                 } else if ((clientX - handleBarOffsetFromParent) <= primaryPaneMinWidth) {
                     primaryPanePosition = primaryPaneMinWidth + 0.001;
@@ -208,8 +223,8 @@ class Splitter extends React.Component<SplitterProps, SplitterState> {
         let primaryPanePosition;
         switch (this.props.position) {
             case 'horizontal': {
-                if (lastY > this.state.maxMousePosInSplitterFromPercentage) {
-                    primaryPanePosition = this.state.maxMousePosInSplitterFromPercentage - handleBarOffsetFromParent;
+                if (lastY > this.state.maxMousePosition) {
+                    primaryPanePosition = this.state.maxMousePosition - handleBarOffsetFromParent;
                 } else if ((lastY - handleBarOffsetFromParent) <= this.props.primaryPaneMinHeight) {
                     primaryPanePosition = this.props.primaryPaneMinHeight + 0.001;
                 } else {
@@ -219,8 +234,8 @@ class Splitter extends React.Component<SplitterProps, SplitterState> {
             }
             case 'vertical':
             default: {
-                if (lastX >= this.state.maxMousePosInSplitterFromPercentage) {
-                    primaryPanePosition = this.state.maxMousePosInSplitterFromPercentage - handleBarOffsetFromParent;
+                if (lastX >= this.state.maxMousePosition) {
+                    primaryPanePosition = this.state.maxMousePosition - handleBarOffsetFromParent;
                     // TODO: blink the handlebar on max size
                 } else if ((lastX - handleBarOffsetFromParent) <= this.props.primaryPaneMinWidth) {
                     primaryPanePosition = this.props.primaryPaneMinWidth + 0.001;
