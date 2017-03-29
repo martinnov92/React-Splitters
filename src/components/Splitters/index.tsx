@@ -29,8 +29,7 @@ class Splitter extends React.Component<SplitterProps, SplitterState> {
         };
     }
 
-    getSize(target?:any) {
-        console.log(target.getBoundingClientRect());
+    getSize(cX?: Number | any, cY?: Number | any) {
         /********************************
         * This function calculates the max position of a mouse in the current splitter from given percentage.
         /********************************/
@@ -40,6 +39,10 @@ class Splitter extends React.Component<SplitterProps, SplitterState> {
         let wrapper = ReactDOM.findDOMNode(this.paneWrapper).getBoundingClientRect();
         let primaryPane = ReactDOM.findDOMNode(this.panePrimary).getBoundingClientRect();
         let handleBarSize = ReactDOM.findDOMNode(this.handlebar).getBoundingClientRect();
+        const posInHandleBar = this.props.position === 'vertical' 
+            ? handleBarSize.left - cX
+            : handleBarSize.top - cY;
+        console.log(posInHandleBar);
 
         // find only letters from string
         const regEx = new RegExp(/\D+/gi);
@@ -53,7 +56,7 @@ class Splitter extends React.Component<SplitterProps, SplitterState> {
 
             if (maxWidthStr === "%") {
                 maxMousePosition =
-                    Math.floor((nodeWrapperSize * (maxWidthNum / 100)) + primaryPaneOffset - handleBarSize.width);
+                    Math.floor((nodeWrapperSize * (maxWidthNum / 100)) + primaryPaneOffset - (handleBarSize.width + posInHandleBar));
             } else if (maxWidthStr === "px") {
                 maxMousePosition =
                     Math.floor((maxWidthNum + primaryPaneOffset) - handleBarSize.width);
@@ -66,7 +69,7 @@ class Splitter extends React.Component<SplitterProps, SplitterState> {
 
             if (maxHeightStr === "%") {
                 maxMousePosition =
-                    Math.floor((nodeWrapperSize * (maxHeightNum / 100)) + primaryPaneOffset + handleBarSize.height);
+                    Math.floor((nodeWrapperSize * (maxHeightNum / 100)) + primaryPaneOffset - (handleBarSize.height + posInHandleBar));
             } else if (maxHeightStr === "px") {
                 maxMousePosition =
                     Math.floor((maxHeightNum + primaryPaneOffset) - handleBarSize.height);
@@ -100,10 +103,6 @@ class Splitter extends React.Component<SplitterProps, SplitterState> {
             return;
         }
 
-        if (React.Children.count(this.props.children) > 1) {
-            this.getSize(e.target);
-        }
-
         let handleBarOffsetFromParent;
         let clientX;
         let clientY;
@@ -114,6 +113,10 @@ class Splitter extends React.Component<SplitterProps, SplitterState> {
         } else if (e.type === 'touchstart') {
             clientX = e.touches[0].clientX;
             clientY = e.touches[0].clientY;
+        }
+
+        if (React.Children.count(this.props.children) > 1) {
+            this.getSize(clientX, clientY);
         }
 
         if (this.props.position === 'horizontal') {
@@ -207,7 +210,7 @@ class Splitter extends React.Component<SplitterProps, SplitterState> {
         }
     }
 
-    handleMouseUp() {
+    handleMouseUp(e:any) {
         /********************************
         * Dispatch event is for components which resizes on window resize
         ********************************/
@@ -274,7 +277,7 @@ class Splitter extends React.Component<SplitterProps, SplitterState> {
         }
 
         if (React.Children.count(this.props.children) > 1) {
-            this.getSize();
+            this.getSize(lastX, lastY);
         }
     }
 
