@@ -1,4 +1,9 @@
-﻿// ------ Splitter interfaces
+﻿declare module 'm-react-splitters/lib' {
+   var Splitters:any;
+   export default Splitters;
+}
+
+// ------ Splitter interfaces
 export type handlePositionType = 'vertical' | 'horizontal'; 
 
 export interface SplitterProps {
@@ -19,6 +24,7 @@ export interface SplitterProps {
     minimalizedPrimaryPane?: Boolean;
     postPoned?: Boolean;
     onDragFinished?: Function;
+    allowResize?: Boolean;
 }
 
 export interface SplitterState {

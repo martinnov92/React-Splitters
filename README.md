@@ -31,7 +31,6 @@ import Splitter from 'm-react-splitters/lib';
 import 'm-react-splitters/lib/splitters.css';
 ```
 
-I am still working on typescript definition file, so if you are using TypeScript, please instead of using `import` use `require`, otherwise you will get error.
 If anyone want to help my with TypeScript definition, feel free to do it 😀 💩.
 
 Vertical splitter

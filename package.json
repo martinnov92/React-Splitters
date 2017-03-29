@@ -28,7 +28,6 @@
     "react-scripts-ts": "1.1.6"
   },
   "dependencies": {
-    "@types/jest": "^18.1.1",
     "@types/node": "^7.0.5",
     "@types/react": "^15.0.13",
     "@types/react-dom": "^0.14.23",

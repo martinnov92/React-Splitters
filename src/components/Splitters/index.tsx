@@ -40,7 +40,12 @@ class Splitter extends React.Component<SplitterProps, SplitterState> {
         let primaryPane = ReactDOM.findDOMNode(this.panePrimary).getBoundingClientRect();
         let handleBarSize = ReactDOM.findDOMNode(this.handlebar).getBoundingClientRect();
 
-        // TODO: accept pxs as primaryPaneMaxWidth        
+        // !!!!!!!!!
+        // const getMaxSizeFromProps = zjistit, jestli se jedná o px, nebo %,
+        // podle toho přizpůsobit výpočet maxMousePosInSplitterFromPercentage
+        // !!!!!!!!!
+
+        // TODO: accept pxs as primaryPaneMaxWidth    
         if (this.props.position === 'vertical') {
             nodeWrapperSize = wrapper.width;
             primaryPaneOffset = primaryPane.left;
