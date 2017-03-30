@@ -13,6 +13,18 @@ import './splitters.css';
 // * uložit stav splitteru do localStorage,nebo někam jinam, bude na to callback funkce
 
 class Splitter extends React.Component<SplitterProps, SplitterState> {
+    public static defaultProps: Partial<SplitterProps> = {
+        position: 'vertical',
+        postPoned: false,
+        dispatchResize: false,
+        primaryPaneMaxWidth: '80%',
+        primaryPaneMinWidth: 300,
+        primaryPaneWidth: '50%',
+        primaryPaneMaxHeight: '80%',
+        primaryPaneMinHeight: 300,
+        primaryPaneHeight: '50%'
+    };
+    
     paneWrapper: any;
     panePrimary: any;
     handlebar: any;
@@ -42,7 +54,6 @@ class Splitter extends React.Component<SplitterProps, SplitterState> {
         const posInHandleBar = this.props.position === 'vertical' 
             ? handleBarSize.left - cX
             : handleBarSize.top - cY;
-        console.log(posInHandleBar);
 
         // find only letters from string
         const regEx = new RegExp(/\D+/gi);
@@ -54,10 +65,10 @@ class Splitter extends React.Component<SplitterProps, SplitterState> {
             nodeWrapperSize = wrapper.width;
             primaryPaneOffset = primaryPane.left;
 
-            if (maxWidthStr === "%") {
+            if (maxWidthStr === '%') {
                 maxMousePosition =
                     Math.floor((nodeWrapperSize * (maxWidthNum / 100)) + primaryPaneOffset - (handleBarSize.width + posInHandleBar));
-            } else if (maxWidthStr === "px") {
+            } else if (maxWidthStr === 'px') {
                 maxMousePosition =
                     Math.floor((maxWidthNum + primaryPaneOffset) - handleBarSize.width);
             }
@@ -67,10 +78,10 @@ class Splitter extends React.Component<SplitterProps, SplitterState> {
             nodeWrapperSize = wrapper.height;
             primaryPaneOffset = primaryPane.top;
 
-            if (maxHeightStr === "%") {
+            if (maxHeightStr === '%') {
                 maxMousePosition =
                     Math.floor((nodeWrapperSize * (maxHeightNum / 100)) + primaryPaneOffset - (handleBarSize.height + posInHandleBar));
-            } else if (maxHeightStr === "px") {
+            } else if (maxHeightStr === 'px') {
                 maxMousePosition =
                     Math.floor((maxHeightNum + primaryPaneOffset) - handleBarSize.height);
             }
@@ -210,7 +221,7 @@ class Splitter extends React.Component<SplitterProps, SplitterState> {
         }
     }
 
-    handleMouseUp(e:any) {
+    handleMouseUp(e: any) {
         /********************************
         * Dispatch event is for components which resizes on window resize
         ********************************/
@@ -267,7 +278,7 @@ class Splitter extends React.Component<SplitterProps, SplitterState> {
 
         // call resize event to trigger method for updating of DataGrid width
         // TODO: add this event for IE11
-        if (typeof this.props.dispatchResize === "boolean") {
+        if (typeof this.props.dispatchResize === 'boolean') {
             window.dispatchEvent(new Event('resize'));
         }
 
@@ -290,7 +301,7 @@ class Splitter extends React.Component<SplitterProps, SplitterState> {
             primaryPaneMinWidth, primaryPaneWidth, primaryPaneMaxWidth,
             primaryPaneMinHeight, primaryPaneHeight, primaryPaneMaxHeight,
             className, primaryPaneClassName, secondaryPaneClassName,
-            maximizedPrimaryPane, minimalizedPrimaryPane, postPoned
+            maximizedPrimaryPane, minimalizedPrimaryPane, postPoned, allowResize
         } = this.props;
 
         const {
@@ -383,6 +394,7 @@ class Splitter extends React.Component<SplitterProps, SplitterState> {
                             position={position}
                             handleMouseDown={this.handleMouseDown}
                             ref={node => this.handlebar = node}
+                            allowResize={allowResize}
                         />
                         : null
                 }
@@ -410,7 +422,7 @@ class Splitter extends React.Component<SplitterProps, SplitterState> {
                 }
             </div>
         );
-    }
+    };
 }
 
 export default Splitter;

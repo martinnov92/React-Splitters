@@ -52,4 +52,5 @@ export interface PaneProps {
 export interface HandleBarProps {
     position: handlePositionType;
     handleMouseDown?: Function | any;
+    allowResize?: Boolean;
 }
