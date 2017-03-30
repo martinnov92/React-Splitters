@@ -3,45 +3,46 @@ import * as React from 'react';
 import Splitter from './components/Splitters';
 
 interface AppState {
-  maxPrimaryPane?: Boolean;
+  maxPrimaryPane?: Boolean
 }
 
 class App extends React.Component<null, AppState> {
   state = {
     maxPrimaryPane: false
-  };
-
+  }
   maxPrimaryPane() {
     this.setState({
       maxPrimaryPane: !this.state.maxPrimaryPane
     });
-  };
-
+  }
   onDragFinishedCallback() {
-    console.log('callback');
-  };
-
+    console.log("callback");
+  }
   render() {
     return (
       <div className="app">
         <div className="splitter-wrapper">
           <Splitter
             position="horizontal"
+            primaryPaneMaxHeight="80%"
+            primaryPaneMinHeight={0}
+            primaryPaneHeight="400px"
+            dispatchResize={true}
             maximizedPrimaryPane={this.state.maxPrimaryPane}
             minimalizedPrimaryPane={false}
+            postPoned={false}
             onDragFinished={this.onDragFinishedCallback}
             className="split"
           >            
             <Splitter
-              position="vertical"
-              primaryPaneMaxWidth="100%"
-              primaryPaneMinWidth={0}
-              primaryPaneWidth="400px"
-              onDragFinished={this.onDragFinishedCallback}
-              dispatchResize={true}
-              postPoned={false}
-              allowResize={false}
-            >
+                position="vertical"
+                primaryPaneMaxWidth="70%"
+                primaryPaneMinWidth={0}
+                primaryPaneWidth="400px"
+                onDragFinished={this.onDragFinishedCallback}
+                dispatchResize={true}
+                postPoned={true}
+              >
               <div className="placeholder _1">
                 <span>1</span>
                 <p>postponed</p>
@@ -49,7 +50,7 @@ class App extends React.Component<null, AppState> {
               </div>
               <Splitter
                   position="vertical"
-                  primaryPaneMaxWidth="100%"
+                  primaryPaneMaxWidth="80%"
                   primaryPaneMinWidth={0}
                   primaryPaneWidth="400px"
                   onDragFinished={this.onDragFinishedCallback}
