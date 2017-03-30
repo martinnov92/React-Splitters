@@ -29,7 +29,7 @@ export interface SplitterProps {
 
 export interface SplitterState {
     isDragging?: boolean;
-    maxMousePosInSplitterFromPercentage?: number | any;
+    maxMousePosition?: number | any;
     handleBarOffsetFromParent?: number | any;
     primaryPane?: number | any;
     lastX?: number | any;
@@ -52,4 +52,5 @@ export interface PaneProps {
 export interface HandleBarProps {
     position: handlePositionType;
     handleMouseDown?: Function | any;
+    allowResize?: Boolean;
 }

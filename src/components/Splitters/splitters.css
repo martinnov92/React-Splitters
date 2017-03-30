@@ -78,5 +78,14 @@
   opacity: .9;
   z-index: 12000; }
 
+.handle-bar.resize-not-allowed {
+  cursor: auto; }
+
+.handle-bar.resize-not-allowed:hover {
+  background-color: #eeeff0; }
+
+.handle-bar.resize-not-allowed .handle-bar_drag {
+  display: none; }
+
 .rotate-90 {
   transform: rotate(90deg); }

@@ -91,6 +91,18 @@
         opacity: .9;
         z-index: 12000;
     }
+
+    &.resize-not-allowed {
+        cursor: auto;
+
+        &:hover {
+            background-color: #eeeff0;;
+        }
+
+        .handle-bar_drag {
+            display: none;
+        }
+    }
 }
 
 .rotate-90 {
