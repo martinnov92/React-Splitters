@@ -1,7 +1,4 @@
-﻿declare module 'm-react-splitters' {
-   var Splitters:any;
-   export default Splitters;
-}
+﻿import { ComponentClass } from "react";
 
 // ------ Splitter interfaces
 export type handlePositionType = 'vertical' | 'horizontal'; 
@@ -54,3 +51,9 @@ export interface HandleBarProps {
     handleMouseDown?: Function | any;
     allowResize?: Boolean;
 }
+
+declare const Splitter: ComponentClass<SplitterProps>;
+
+export as namespace Splitter;
+
+export default Splitter;

@@ -12,7 +12,7 @@ import './splitters.css';
 // TODO: 
 // * uložit stav splitteru do localStorage,nebo někam jinam, bude na to callback funkce
 
-class Splitter extends React.Component<SplitterProps, SplitterState> {
+export class Splitter extends React.Component<SplitterProps, SplitterState> {
     public static defaultProps: Partial<SplitterProps> = {
         position: 'vertical',
         postPoned: false,
@@ -424,5 +424,3 @@ class Splitter extends React.Component<SplitterProps, SplitterState> {
         );
     };
 }
-
-export default Splitter;
