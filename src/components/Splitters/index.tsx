@@ -1,2 +1,2 @@
-import { default as Splitters } from './Splitters';
-export default Splitters;
+import Splitter from './Splitter';
+export default Splitter;

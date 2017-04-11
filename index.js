@@ -1,4 +1,4 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-var Splitters_1 = require("./lib/Splitters");
-exports.default = Splitters_1.default;
+var Splitter_1 = require("./lib/Splitter");
+exports.default = Splitter_1.default;
