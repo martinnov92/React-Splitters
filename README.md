@@ -1,10 +1,12 @@
 # Splitters for React
 
-<i>v. 0.0.8</i>
+<i>v. 1.0.2</i>
 
 **New version changes**
 
 * import like this `import Splitters from 'm-react-splitters'`
+
+* added typings files
 
 [NPM](https://www.npmjs.com/package/m-react-splitters)
 
@@ -33,8 +35,6 @@ Please import splitters like this:
 import Splitter from 'm-react-splitters';
 import 'm-react-splitters/lib/splitters.css';
 ```
-
-If anyone want to help my with TypeScript definition, feel free to do it 😀 💩.
 
 Vertical splitter
 ```js
