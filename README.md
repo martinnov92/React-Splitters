@@ -1,11 +1,14 @@
 # Splitters for React
 
-<b>This is still work in progress </b>
-<i>v. 0.0.3</i>
+<i>v. 0.0.8</i>
 
-[Demo](https://martinnov92.github.io/React-Splitters/)
+**New version changes**
+
+* import like this `import Splitters from 'm-react-splitters'`
 
 [NPM](https://www.npmjs.com/package/m-react-splitters)
+
+[Demo](https://martinnov92.github.io/React-Splitters/)
 
 Install: `npm install --save m-react-splitters` 
 
@@ -27,7 +30,7 @@ Usage in your projects:
 Please import splitters like this:
 
 ```
-import Splitter from 'm-react-splitters/lib';
+import Splitter from 'm-react-splitters';
 import 'm-react-splitters/lib/splitters.css';
 ```
 
