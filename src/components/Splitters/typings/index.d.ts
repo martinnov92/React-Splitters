@@ -1,7 +1,4 @@
-﻿declare module 'm-react-splitters/lib' {
-
-    
-
+﻿declare module 'm-react-splitters' {
    var Splitters:any;
    export default Splitters;
 }
