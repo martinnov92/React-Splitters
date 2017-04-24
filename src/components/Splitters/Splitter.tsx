@@ -5,7 +5,7 @@ import * as ReactDOM from 'react-dom';
 ********************************/
 import Pane from './Pane';
 import HandleBar from './HandleBar';
-import { unselectAll } from './Helpers';
+import { unselectAll, getPrimaryPaneWidth } from './helpers';
 import { SplitterProps, SplitterState } from './typings/index';
 import './splitters.css';
 
@@ -154,6 +154,7 @@ export class Splitter extends React.Component<SplitterProps, SplitterState> {
         if (!this.state.isDragging) {
             return;
         }
+        
         unselectAll();
 
         const {
@@ -179,31 +180,7 @@ export class Splitter extends React.Component<SplitterProps, SplitterState> {
             clientY = e.touches[0].clientY;
         }
 
-        let primaryPanePosition;
-        switch (position) {
-            case 'horizontal': {
-                if (clientY > maxMousePosition) {
-                    primaryPanePosition = maxMousePosition - handleBarOffsetFromParent;
-                } else if ((clientY - handleBarOffsetFromParent) <= primaryPaneMinHeight) {
-                    primaryPanePosition = primaryPaneMinHeight + 0.001;
-                } else {
-                    primaryPanePosition = clientY - handleBarOffsetFromParent;
-                }
-                break;
-            }
-            case 'vertical':
-            default: {
-                if (clientX > maxMousePosition) {
-                    primaryPanePosition = maxMousePosition - handleBarOffsetFromParent;
-                    // TODO: blink the handlebar on max size
-                } else if ((clientX - handleBarOffsetFromParent) <= primaryPaneMinWidth) {
-                    primaryPanePosition = primaryPaneMinWidth + 0.001;
-                } else {
-                    primaryPanePosition = clientX - handleBarOffsetFromParent;
-                }
-                break;
-            }
-        }
+        const primaryPanePosition = getPrimaryPaneWidth(position, clientX, clientY, maxMousePosition, handleBarOffsetFromParent, primaryPaneMinHeight, primaryPaneMinWidth);
 
         if (postPoned) {
             this.setState({
@@ -231,36 +208,19 @@ export class Splitter extends React.Component<SplitterProps, SplitterState> {
 
         const {
             handleBarOffsetFromParent,
-            lastX, lastY
+            lastX, lastY, maxMousePosition
         } = this.state;
 
-        let primaryPanePosition;
-        switch (this.props.position) {
-            case 'horizontal': {
-                if (lastY > this.state.maxMousePosition) {
-                    primaryPanePosition = this.state.maxMousePosition - handleBarOffsetFromParent;
-                } else if ((lastY - handleBarOffsetFromParent) <= this.props.primaryPaneMinHeight) {
-                    primaryPanePosition = this.props.primaryPaneMinHeight + 0.001;
-                } else {
-                    primaryPanePosition = lastY - handleBarOffsetFromParent;
-                }
-                break;
-            }
-            case 'vertical':
-            default: {
-                if (lastX >= this.state.maxMousePosition) {
-                    primaryPanePosition = this.state.maxMousePosition - handleBarOffsetFromParent;
-                    // TODO: blink the handlebar on max size
-                } else if ((lastX - handleBarOffsetFromParent) <= this.props.primaryPaneMinWidth) {
-                    primaryPanePosition = this.props.primaryPaneMinWidth + 0.001;
-                } else {
-                    primaryPanePosition = lastX - handleBarOffsetFromParent;
-                }
-                break;
-            }
-        }
+        const {
+            position,
+            primaryPaneMinWidth,
+            primaryPaneMinHeight,
+            postPoned
+        } = this.props;
 
-        if (this.props.postPoned) {
+        const primaryPanePosition = getPrimaryPaneWidth(position, lastX, lastY, maxMousePosition, handleBarOffsetFromParent, primaryPaneMinHeight, primaryPaneMinWidth);
+
+        if (postPoned) {
             this.setState({
                 isDragging: false,
                 isVisible: false,
