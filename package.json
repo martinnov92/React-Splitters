@@ -29,10 +29,10 @@
   },
   "dependencies": {
     "@types/node": "^7.0.5",
-    "@types/react": "^15.0.22",
-    "@types/react-dom": "^0.14.23",
-    "react": "^15.5.4",
-    "react-dom": "^15.5.4"
+    "@types/react": "^16.0.5",
+    "@types/react-dom": "^15.5.4",
+    "react": "^15.6.1",
+    "react-dom": "^15.6.1"
   },
   "scripts": {
     "tsc-compile": "tsc ./src/components/Splitters/*.tsx --outDir ./lib --jsx react --target ES5",

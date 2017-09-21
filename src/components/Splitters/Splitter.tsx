@@ -24,11 +24,11 @@ export class Splitter extends React.Component<SplitterProps, SplitterState> {
         primaryPaneMinHeight: 300,
         primaryPaneHeight: '50%'
     };
-    
-    paneWrapper: any;
-    panePrimary: any;
-    handlebar: any;
-    paneNotPrimary: any;
+
+    paneWrapper: HTMLDivElement;
+    panePrimary: Pane
+    paneNotPrimary: Pane;
+    handlebar: HandleBar;
 
     constructor() {
         super();
@@ -337,13 +337,13 @@ export class Splitter extends React.Component<SplitterProps, SplitterState> {
             <div
                 className={`splitter ${position === 'vertical' ? 'vertical' : 'horizontal'} ${className || ''}`}
                 style={onePaneStyle !== 'undefined' ? onePaneStyle : null}
-                ref={node => this.paneWrapper = node}
+                ref={(node: HTMLDivElement) => this.paneWrapper = node}
             >
                 <Pane
                     className={`primary ${primaryPaneClassName || ''}`}
                     position={position}
                     style={paneStyle}
-                    ref={(node) => this.panePrimary = node}
+                    ref={(node: Pane) => this.panePrimary = node}
                 >
                     {!children[1] ? children : children[0]}
                 </Pane>
@@ -353,7 +353,7 @@ export class Splitter extends React.Component<SplitterProps, SplitterState> {
                         ? <HandleBar
                             position={position}
                             handleMouseDown={this.handleMouseDown}
-                            ref={node => this.handlebar = node}
+                            ref={(node: HandleBar) => this.handlebar = node}
                             allowResize={allowResize}
                         />
                         : null
@@ -374,7 +374,7 @@ export class Splitter extends React.Component<SplitterProps, SplitterState> {
                             className={secondaryPaneClassName || ''}
                             position={position}
                             hasDetailPane={this.props.hasDetailPane}
-                            ref={node => this.paneNotPrimary = node}
+                            ref={(node: Pane) => this.paneNotPrimary = node}
                         >
                             {children[1]}
                         </Pane>
