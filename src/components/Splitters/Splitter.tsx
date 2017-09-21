@@ -10,7 +10,10 @@ import { SplitterProps, SplitterState } from './typings/index';
 import './splitters.css';
 
 // TODO: 
-// * uložit stav splitteru do localStorage,nebo někam jinam, bude na to callback funkce
+// [ ] uložit stav splitteru do localStorage,nebo někam jinam, bude na to callback funkce
+// [ ] při resize vyvolat custom event, na kterou může reagovat celá aplikace
+// [ ] vypočítat velikost obou částí splitteru
+// [ ] při resizu přepočítat velikosti (pomocí custom eventy - reakce ostatních splitterů)
 
 export class Splitter extends React.Component<SplitterProps, SplitterState> {
     public static defaultProps: Partial<SplitterProps> = {
@@ -265,10 +268,24 @@ export class Splitter extends React.Component<SplitterProps, SplitterState> {
         } = this.props;
 
         const {
-            handleBarClonePosition,
+            isVisible,
             primaryPane,
-            isVisible
+            handleBarClonePosition
         } = this.state;
+
+        const wrapperClassName = [
+            'splitter',
+            className || null,
+            position === 'vertical' ? 'vertical' : 'horizontal'
+        ].filter((cls) => cls !== null).join(' ');
+
+        const handleBarCloneClassName = [
+            'handle-bar',
+            'handle-bar_clone',
+            position === 'vertical' ? 'vertical' : 'horizontal'
+        ].filter((cls) => cls !== null).join(' ');
+
+        const count = React.Children.count(this.props.children);
 
         let paneStyle;
         switch (position) {
@@ -316,6 +333,8 @@ export class Splitter extends React.Component<SplitterProps, SplitterState> {
                 }
                 break;
             }
+            default:
+                break;
         }
 
         if (!children[1]) {
@@ -326,8 +345,8 @@ export class Splitter extends React.Component<SplitterProps, SplitterState> {
             };
         }
 
-        let handlebarClone;
-        if (React.Children.count(children) > 1 && postPoned) {
+        let handlebarClone = {};
+        if ((count > 1) && postPoned) {
             handlebarClone = {
                 [position === 'vertical' ? 'left' : 'top']: handleBarClonePosition + 'px'
             };
@@ -335,7 +354,7 @@ export class Splitter extends React.Component<SplitterProps, SplitterState> {
 
         return (
             <div
-                className={`splitter ${position === 'vertical' ? 'vertical' : 'horizontal'} ${className || ''}`}
+                className={wrapperClassName}
                 style={onePaneStyle !== 'undefined' ? onePaneStyle : null}
                 ref={(node: HTMLDivElement) => this.paneWrapper = node}
             >
@@ -349,36 +368,36 @@ export class Splitter extends React.Component<SplitterProps, SplitterState> {
                 </Pane>
 
                 {
-                    children[1]
-                        ? <HandleBar
-                            position={position}
-                            handleMouseDown={this.handleMouseDown}
-                            ref={(node: HandleBar) => this.handlebar = node}
-                            allowResize={allowResize}
-                        />
-                        : null
+                    count > 1
+                    ? <HandleBar
+                        position={position}
+                        handleMouseDown={this.handleMouseDown}
+                        ref={(node: HandleBar) => this.handlebar = node}
+                        allowResize={allowResize}
+                    />
+                    : null
                 }
 
                 {
                     postPoned && isVisible
-                        ? <div
-                            className={`handle-bar handle-bar_clone ${position === 'vertical' ? 'vertical' : 'horizontal'} `}
-                            style={handlebarClone}
-                        />
-                        : null
+                    ? <div
+                        className={handleBarCloneClassName}
+                        style={handlebarClone}
+                    />
+                    : null
                 }
 
                 {
                     children[1]
-                        ? <Pane
-                            className={secondaryPaneClassName || ''}
-                            position={position}
-                            hasDetailPane={this.props.hasDetailPane}
-                            ref={(node: Pane) => this.paneNotPrimary = node}
-                        >
-                            {children[1]}
-                        </Pane>
-                        : null
+                    ? <Pane
+                        className={secondaryPaneClassName || ''}
+                        position={position}
+                        hasDetailPane={this.props.hasDetailPane}
+                        ref={(node: Pane) => this.paneNotPrimary = node}
+                    >
+                        {children[1]}
+                    </Pane>
+                    : null
                 }
             </div>
         );
