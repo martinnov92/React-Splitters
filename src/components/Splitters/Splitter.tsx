@@ -12,6 +12,8 @@ import './splitters.css';
 // TODO: 
 // [ ] uložit stav splitteru do localStorage,nebo někam jinam, bude na to callback funkce
 // [ ] při resize vyvolat custom event, na kterou může reagovat celá aplikace
+// [ ] + s tím souvisí, pojmenovat stejně splittery, na které se daná událost vztahuje (předání v propsech)
+// pokud to tam nebude, nedojde k resizu a fallbackem to přejde na flex rozložení?
 // [ ] vypočítat velikost obou částí splitteru
 // [ ] při resizu přepočítat velikosti (pomocí custom eventy - reakce ostatních splitterů)
 

@@ -34,6 +34,9 @@ export interface SplitterState {
     handleBarClonePos?: number | any;
     isVisible?: Boolean;
     handleBarClonePosition?: number;
+
+    wrapperWidth?: number;
+    secondaryPaneWidth?: number;
 }
 
 // ------ Pane interfaces
