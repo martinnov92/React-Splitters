@@ -4,8 +4,9 @@
 export type handlePositionType = 'vertical' | 'horizontal'; 
 
 export interface SplitterProps {
-    children?: {} | any;
+    splitterGroup?: string;
     position: handlePositionType;
+    children?: {} | any;
     hasDetailPane?: boolean;
     primaryPaneMinWidth?: number | any; 
     primaryPaneWidth?: string | any; 
@@ -28,7 +29,6 @@ export interface SplitterState {
     isDragging?: boolean;
     maxMousePosition?: number | any;
     handleBarOffsetFromParent?: number | any;
-    primaryPane?: number | any;
     lastX?: number | any;
     lastY?: number | any;
     handleBarClonePos?: number | any;
@@ -36,6 +36,7 @@ export interface SplitterState {
     handleBarClonePosition?: number;
 
     wrapperWidth?: number;
+    primaryPaneWidth?: number;
     secondaryPaneWidth?: number;
 }
 

@@ -6,38 +6,47 @@
     }
 }
 
-export function getPrimaryPaneWidth
-    (
-    position: string, lastX: number, lastY: number,
-    maxMousePosition: number, handleBarOffsetFromParent: number,
-    primaryPaneMinHeight: number, primaryPaneMinWidth: number
-    ): number {
+interface GetPrimaryPaneWidthArgs {
+    position: string;
+    clientX: number;
+    clientY: number;
+    maxMousePosition: number;
+    handleBarOffsetFromParent: number;
+    primaryPaneMinHeight: number;
+    primaryPaneMinWidth: number;
+}
 
-    let primaryPanePosition;
+export function getPrimaryPaneWidth(args: GetPrimaryPaneWidthArgs): number {
+    const {
+        position, clientX, clientY,
+        maxMousePosition, handleBarOffsetFromParent,
+        primaryPaneMinHeight, primaryPaneMinWidth
+    } = args;
+    let primaryPaneWidth;
 
     switch (position) {
         case 'horizontal': {
-            if (lastY > maxMousePosition) {
-                primaryPanePosition = maxMousePosition - handleBarOffsetFromParent;
-            } else if ((lastY - handleBarOffsetFromParent) <= primaryPaneMinHeight) {
-                primaryPanePosition = primaryPaneMinHeight + 0.001;
+            if (clientY > maxMousePosition) {
+                primaryPaneWidth = maxMousePosition - handleBarOffsetFromParent;
+            } else if ((clientY - handleBarOffsetFromParent) <= primaryPaneMinHeight) {
+                primaryPaneWidth = primaryPaneMinHeight + 0.001;
             } else {
-                primaryPanePosition = lastY - handleBarOffsetFromParent;
+                primaryPaneWidth = clientY - handleBarOffsetFromParent;
             }
             break;
         }
         case 'vertical':
         default: {
-            if (lastX >= maxMousePosition) {
-                primaryPanePosition = maxMousePosition - handleBarOffsetFromParent;
-            } else if ((lastX - handleBarOffsetFromParent) <= primaryPaneMinWidth) {
-                primaryPanePosition = primaryPaneMinWidth + 0.001;
+            if (clientX >= maxMousePosition) {
+                primaryPaneWidth = maxMousePosition - handleBarOffsetFromParent;
+            } else if ((clientX - handleBarOffsetFromParent) <= primaryPaneMinWidth) {
+                primaryPaneWidth = primaryPaneMinWidth + 0.001;
             } else {
-                primaryPanePosition = lastX - handleBarOffsetFromParent;
+                primaryPaneWidth = clientX - handleBarOffsetFromParent;
             }
             break;
         }
     }
 
-    return primaryPanePosition;
+    return primaryPaneWidth;
 }

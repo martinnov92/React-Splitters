@@ -42,13 +42,13 @@ export class Splitter extends React.Component<SplitterProps, SplitterState> {
             isDragging: false
         };
 
-        this.getSize = this.getSize.bind(this);
         this.handleMouseUp = this.handleMouseUp.bind(this);
         this.handleMouseMove = this.handleMouseMove.bind(this);
         this.handleMouseDown = this.handleMouseDown.bind(this);
+        this.getMaxMousePositionFromSize = this.getMaxMousePositionFromSize.bind(this);
     }
 
-    getSize(cX?: Number | any, cY?: Number | any) {
+    getMaxMousePositionFromSize(cX?: Number | any, cY?: Number | any) {
         /********************************
         * This function calculates the max position of a mouse in the current splitter from given percentage.
         /********************************/
@@ -98,7 +98,8 @@ export class Splitter extends React.Component<SplitterProps, SplitterState> {
         }
 
         this.setState({
-            maxMousePosition
+            maxMousePosition,
+            wrapperWidth: wrapper.width
         });
     }
 
@@ -110,7 +111,7 @@ export class Splitter extends React.Component<SplitterProps, SplitterState> {
         document.addEventListener('mouseup', this.handleMouseUp);
         document.addEventListener('touchend', this.handleMouseUp);
         if (React.Children.count(this.props.children) > 1) {
-            window.addEventListener('resize', this.getSize);
+            window.addEventListener('resize', this.getMaxMousePositionFromSize);
         }
     }
 
@@ -137,7 +138,7 @@ export class Splitter extends React.Component<SplitterProps, SplitterState> {
         }
 
         if (React.Children.count(this.props.children) > 1) {
-            this.getSize(clientX, clientY);
+            this.getMaxMousePositionFromSize(clientX, clientY);
         }
 
         if (this.props.position === 'horizontal') {
@@ -190,8 +191,9 @@ export class Splitter extends React.Component<SplitterProps, SplitterState> {
             clientY = e.touches[0].clientY;
         }
 
-        const primaryPanePosition = getPrimaryPaneWidth(position, clientX, clientY, maxMousePosition, handleBarOffsetFromParent, primaryPaneMinHeight, primaryPaneMinWidth);
-
+        const primaryPanePosition = getPrimaryPaneWidth({ position, clientX, clientY, maxMousePosition, handleBarOffsetFromParent, primaryPaneMinHeight, primaryPaneMinWidth });
+        const secondaryPaneWidth = (this.state.wrapperWidth || 0) - primaryPanePosition;
+        console.log(clientX);
         if (postPoned) {
             this.setState({
                 handleBarClonePosition: primaryPanePosition,
@@ -201,7 +203,8 @@ export class Splitter extends React.Component<SplitterProps, SplitterState> {
             });
         } else {
             this.setState({
-                primaryPane: primaryPanePosition,
+                primaryPaneWidth: primaryPanePosition,
+                secondaryPaneWidth,
                 lastX: clientX,
                 lastY: clientY
             });
@@ -228,18 +231,18 @@ export class Splitter extends React.Component<SplitterProps, SplitterState> {
             postPoned
         } = this.props;
 
-        const primaryPanePosition = getPrimaryPaneWidth(position, lastX, lastY, maxMousePosition, handleBarOffsetFromParent, primaryPaneMinHeight, primaryPaneMinWidth);
+        const primaryPanePosition = getPrimaryPaneWidth({ position, clientX: lastX, clientY: lastY, maxMousePosition, handleBarOffsetFromParent, primaryPaneMinHeight, primaryPaneMinWidth });
 
         if (postPoned) {
             this.setState({
                 isDragging: false,
                 isVisible: false,
-                primaryPane: primaryPanePosition
+                primaryPaneWidth: primaryPanePosition
             });
         } else {
             this.setState({
                 isDragging: false,
-                primaryPane: primaryPanePosition
+                primaryPaneWidth: primaryPanePosition
             });
         }
 
@@ -258,7 +261,7 @@ export class Splitter extends React.Component<SplitterProps, SplitterState> {
         }
 
         if (React.Children.count(this.props.children) > 1) {
-            this.getSize(lastX, lastY);
+            this.getMaxMousePositionFromSize(lastX, lastY);
         }
     }
 
@@ -276,7 +279,7 @@ export class Splitter extends React.Component<SplitterProps, SplitterState> {
 
         const {
             isVisible,
-            primaryPane,
+            primaryPaneWidth: primaryPaneWidthState,
             handleBarClonePosition
         } = this.state;
 
@@ -311,7 +314,7 @@ export class Splitter extends React.Component<SplitterProps, SplitterState> {
                     };
                 } else {
                     paneStyle = {
-                        width: primaryPane ? `${primaryPane}px` : primaryPaneWidth,
+                        width: primaryPaneWidthState ? `${primaryPaneWidthState}px` : primaryPaneWidth,
                         minWidth: primaryPaneMinWidth,
                         maxWidth: primaryPaneMaxWidth
                     };
@@ -333,7 +336,7 @@ export class Splitter extends React.Component<SplitterProps, SplitterState> {
                     };
                 } else {
                     paneStyle = {
-                        height: primaryPane ? `${primaryPane}px` : primaryPaneHeight,
+                        height: primaryPaneWidthState ? `${primaryPaneWidthState}px` : primaryPaneHeight,
                         minHeight: primaryPaneMinHeight,
                         maxHeight: primaryPaneMaxHeight
                     };
@@ -359,6 +362,7 @@ export class Splitter extends React.Component<SplitterProps, SplitterState> {
             };
         }
 
+        console.log(this.state);
         return (
             <div
                 className={wrapperClassName}
