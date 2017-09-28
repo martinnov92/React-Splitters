@@ -37,7 +37,9 @@ export interface SplitterState {
 
     wrapperWidth?: number;
     primaryPaneWidth?: number;
+    primaryPaneHeight?: number;
     secondaryPaneWidth?: number;
+    secondaryPaneHeight?: number
 }
 
 // ------ Pane interfaces

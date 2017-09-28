@@ -39,12 +39,18 @@ export class Splitter extends React.Component<SplitterProps, SplitterState> {
         super();
 
         this.state = {
-            isDragging: false
+            isDragging: false,
+            wrapperWidth: 0,
+            primaryPaneWidth: 0,
+            primaryPaneHeight: 0,
+            secondaryPaneWidth: 0,
+            secondaryPaneHeight: 0
         };
 
         this.handleMouseUp = this.handleMouseUp.bind(this);
         this.handleMouseMove = this.handleMouseMove.bind(this);
         this.handleMouseDown = this.handleMouseDown.bind(this);
+        this.getInitialSizes = this.getInitialSizes.bind(this);
         this.getMaxMousePositionFromSize = this.getMaxMousePositionFromSize.bind(this);
     }
 
@@ -100,6 +106,60 @@ export class Splitter extends React.Component<SplitterProps, SplitterState> {
         this.setState({
             maxMousePosition,
             wrapperWidth: wrapper.width
+        }, () => console.log(this.state.maxMousePosition));
+    }
+
+    getInitialSizes() {
+        const {
+            position,
+            primaryPaneWidth,
+            primaryPaneHeight
+        } = this.props;
+
+        const splitter = ReactDOM.findDOMNode(this.paneWrapper).getBoundingClientRect();
+        const handleBar = ReactDOM.findDOMNode(this.handlebar).getBoundingClientRect();
+
+        const regEx = new RegExp(/\D+/gi);
+        let primaryPaneSize = 0;
+        let secondaryPaneSize = 0;
+
+        switch (position) {
+            case 'vertical':
+            default:
+                let verticalSizeType = primaryPaneWidth.match(regEx)[0].toLowerCase();
+                let verticalSizeNumber = parseFloat(primaryPaneWidth.split(regEx)[0]);
+
+                if (verticalSizeType === 'px' || !verticalSizeType) {
+                    primaryPaneSize = verticalSizeNumber;
+                }
+
+                if (verticalSizeType === '%') {
+                    let primaryPaneWidthFromPercentage = splitter.width * (verticalSizeNumber / 100);
+                    primaryPaneSize = primaryPaneWidthFromPercentage;
+                }
+
+                secondaryPaneSize = splitter.width - primaryPaneSize - handleBar.width;
+            break;
+            case 'horizontal':
+                let horizontalSizeType = primaryPaneHeight.match(regEx)[0].toLowerCase();
+                let horizontalSizeNumber = parseFloat(primaryPaneHeight.split(regEx)[0]);
+
+                if (horizontalSizeType === 'px' || !horizontalSizeType) {
+                    primaryPaneSize = horizontalSizeNumber;
+                }
+
+                if (horizontalSizeType === '%') {
+                    let primaryPaneWidthFromPercentage = splitter.height * (horizontalSizeNumber / 100);
+                    primaryPaneSize = primaryPaneWidthFromPercentage;
+                }
+
+                secondaryPaneSize = splitter.height - primaryPaneSize - handleBar.height;
+            break;
+        }
+        console.log(splitter, ReactDOM.findDOMNode(this.paneNotPrimary));
+        this.setState({
+            [position === 'vertical' ? 'primaryPaneWidth' : 'primaryPaneHeight']: primaryPaneSize,
+            [position === 'vertical' ? 'secondaryPaneWidth' : 'secondaryPaneHeight']: secondaryPaneSize,
         });
     }
 
@@ -110,6 +170,8 @@ export class Splitter extends React.Component<SplitterProps, SplitterState> {
         ********************************/
         document.addEventListener('mouseup', this.handleMouseUp);
         document.addEventListener('touchend', this.handleMouseUp);
+        window.addEventListener('resize', this.getInitialSizes);
+        this.getInitialSizes();
         if (React.Children.count(this.props.children) > 1) {
             window.addEventListener('resize', this.getMaxMousePositionFromSize);
         }
@@ -271,8 +333,8 @@ export class Splitter extends React.Component<SplitterProps, SplitterState> {
         ********************************/
         const {
             children, position,
-            primaryPaneMinWidth, primaryPaneWidth, primaryPaneMaxWidth,
-            primaryPaneMinHeight, primaryPaneHeight, primaryPaneMaxHeight,
+            primaryPaneMinWidth, primaryPaneMaxWidth,
+            primaryPaneMinHeight, primaryPaneMaxHeight,
             className, primaryPaneClassName, secondaryPaneClassName,
             maximizedPrimaryPane, minimalizedPrimaryPane, postPoned, allowResize
         } = this.props;
@@ -280,7 +342,10 @@ export class Splitter extends React.Component<SplitterProps, SplitterState> {
         const {
             isVisible,
             primaryPaneWidth: primaryPaneWidthState,
-            handleBarClonePosition
+            primaryPaneHeight: primaryPaneHeightState,
+            secondaryPaneWidth: secondaryPaneWidthState,
+            secondaryPaneHeight: secondaryPaneHeightState,
+            handleBarClonePosition,
         } = this.state;
 
         const wrapperClassName = [
@@ -297,48 +362,57 @@ export class Splitter extends React.Component<SplitterProps, SplitterState> {
 
         const count = React.Children.count(this.props.children);
 
-        let paneStyle;
+        let primaryPaneStyle;
+        let secondaryPaneStyle;
         switch (position) {
             case 'vertical': {
                 if (maximizedPrimaryPane) {
-                    paneStyle = {
+                    primaryPaneStyle = {
                         width: '100%',
                         minWidth: primaryPaneMinWidth,
                         maxWidth: '100%'
                     };
                 } else if (minimalizedPrimaryPane) {
-                    paneStyle = {
+                    primaryPaneStyle = {
                         width: '0px',
                         minWidth: 0,
                         maxWidth: primaryPaneMaxWidth
                     };
                 } else {
-                    paneStyle = {
-                        width: primaryPaneWidthState ? `${primaryPaneWidthState}px` : primaryPaneWidth,
+                    primaryPaneStyle = {
+                        width: `${primaryPaneWidthState}px`,
                         minWidth: primaryPaneMinWidth,
                         maxWidth: primaryPaneMaxWidth
+                    };
+
+                    secondaryPaneStyle = {
+                        width: `${secondaryPaneWidthState}px`
                     };
                 }
                 break;
             }
             case 'horizontal': {
                 if (maximizedPrimaryPane) {
-                    paneStyle = {
+                    primaryPaneStyle = {
                         height: '100%',
                         minHeight: 0,
                         maxHeight: '100%'
                     };
                 } else if (minimalizedPrimaryPane) {
-                    paneStyle = {
+                    primaryPaneStyle = {
                         height: '0px',
                         minHeight: 0,
                         maxHeight: primaryPaneMaxHeight
                     };
                 } else {
-                    paneStyle = {
-                        height: primaryPaneWidthState ? `${primaryPaneWidthState}px` : primaryPaneHeight,
+                    primaryPaneStyle = {
+                        height: `${primaryPaneHeightState}px`,
                         minHeight: primaryPaneMinHeight,
                         maxHeight: primaryPaneMaxHeight
+                    };
+
+                    secondaryPaneStyle = {
+                        height: `${secondaryPaneHeightState}px`
                     };
                 }
                 break;
@@ -372,7 +446,7 @@ export class Splitter extends React.Component<SplitterProps, SplitterState> {
                 <Pane
                     className={`primary ${primaryPaneClassName || ''}`}
                     position={position}
-                    style={paneStyle}
+                    style={primaryPaneStyle}
                     ref={(node: Pane) => this.panePrimary = node}
                 >
                     {!children[1] ? children : children[0]}
@@ -403,6 +477,7 @@ export class Splitter extends React.Component<SplitterProps, SplitterState> {
                     ? <Pane
                         className={secondaryPaneClassName || ''}
                         position={position}
+                        style={secondaryPaneStyle}
                         hasDetailPane={this.props.hasDetailPane}
                         ref={(node: Pane) => this.paneNotPrimary = node}
                     >

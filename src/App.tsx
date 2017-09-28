@@ -40,7 +40,7 @@ class App extends React.Component<{}, AppState> {
                             position="vertical"
                             primaryPaneMaxWidth="100%"
                             primaryPaneMinWidth={0}
-                            primaryPaneWidth="400px"
+                            primaryPaneWidth="20%"
                             onDragFinished={this.onDragFinishedCallback}
                             dispatchResize={true}
                             postPoned={false}
