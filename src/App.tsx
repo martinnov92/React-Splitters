@@ -6,7 +6,7 @@ interface AppState {
   maxPrimaryPane?: Boolean;
 }
 
-class App extends React.Component<null, AppState> {
+class App extends React.Component<{}, AppState> {
   state = {
     maxPrimaryPane: false
   };
@@ -40,7 +40,7 @@ class App extends React.Component<null, AppState> {
               onDragFinished={this.onDragFinishedCallback}
               dispatchResize={true}
               postPoned={false}
-              allowResize={false}
+              allowResize={true}
             >
               <div className="placeholder _1">
                 <span>1</span>

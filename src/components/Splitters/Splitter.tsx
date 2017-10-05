@@ -5,7 +5,7 @@ import * as ReactDOM from 'react-dom';
 ********************************/
 import Pane from './Pane';
 import HandleBar from './HandleBar';
-import { unselectAll, getPrimaryPaneWidth } from './helpers';
+import { unselectAll, getPrimaryPaneWidth } from './Helpers';
 import { SplitterProps, SplitterState } from './typings/index';
 import './splitters.css';
 
