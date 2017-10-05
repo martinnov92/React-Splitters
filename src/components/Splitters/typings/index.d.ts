@@ -34,6 +34,8 @@ export interface SplitterState {
     handleBarClonePos?: number | any;
     isVisible?: Boolean;
     handleBarClonePosition?: number;
+
+    customEventDragging?: boolean
 }
 
 // ------ Pane interfaces

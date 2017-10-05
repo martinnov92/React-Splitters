@@ -9,7 +9,9 @@ import { unselectAll, getPrimaryPaneWidth } from './Helpers';
 import { SplitterProps, SplitterState } from './typings/index';
 import './splitters.css';
 
-// TODO: 
+// TODO:
+// [ ] custom event pro tažení
+// [ ] nastavit flex: 1 1 auto splitterům, u který nedochází k tažení, tak aby volně mohli upravit svoji velikost bez ohledu na width
 // * uložit stav splitteru do localStorage,nebo někam jinam, bude na to callback funkce
 
 export class Splitter extends React.Component<SplitterProps, SplitterState> {
@@ -32,13 +34,19 @@ export class Splitter extends React.Component<SplitterProps, SplitterState> {
 
     constructor() {
         super();
+
+        this.state = {
+            isDragging: false,
+            customEventDragging: false
+        };
+
+        this.getSize = this.getSize.bind(this);
+        this.listenForDragStart = this.listenForDragStart.bind(this);
+        this.listenForDragging = this.listenForDragging.bind(this);
+        this.listenForDragEnd = this.listenForDragEnd.bind(this);
         this.handleMouseDown = this.handleMouseDown.bind(this);
         this.handleMouseUp = this.handleMouseUp.bind(this);
         this.handleMouseMove = this.handleMouseMove.bind(this);
-        this.getSize = this.getSize.bind(this);
-        this.state = {
-            isDragging: false
-        };
     }
 
     getSize(cX?: Number | any, cY?: Number | any) {
@@ -92,6 +100,22 @@ export class Splitter extends React.Component<SplitterProps, SplitterState> {
         });
     }
 
+    listenForDragStart() {
+        // co se stane po startu?
+    }
+
+    listenForDragging() {
+        this.setState({
+            customEventDragging: true
+        });
+    }
+
+    listenForDragEnd() {
+        this.setState({
+            customEventDragging: false
+        });
+    }
+
     componentDidMount() {
         /********************************
         * Sets event listeners after component is mounted.
@@ -101,6 +125,11 @@ export class Splitter extends React.Component<SplitterProps, SplitterState> {
         document.addEventListener('touchend', this.handleMouseUp);
         if (React.Children.count(this.props.children) > 1) {
             window.addEventListener('resize', this.getSize);
+
+            // listen for custom events
+            window.addEventListener('splitterDraggingStart', this.listenForDragStart);
+            window.addEventListener('splitterDragging', this.listenForDragging);
+            window.addEventListener('splitterDraggingEnd', this.listenForDragEnd);
         }
     }
 
@@ -113,6 +142,9 @@ export class Splitter extends React.Component<SplitterProps, SplitterState> {
         if (e.button === 2 || this.props.allowResize === false) {
             return;
         }
+
+        const event = new CustomEvent('splitterDraggingStart');
+        window.dispatchEvent(event);
 
         let handleBarOffsetFromParent;
         let clientX;
@@ -154,7 +186,10 @@ export class Splitter extends React.Component<SplitterProps, SplitterState> {
         if (!this.state.isDragging) {
             return;
         }
-        
+
+        const event = new CustomEvent('splitterDragging');
+        window.dispatchEvent(event);
+
         unselectAll();
 
         const {
@@ -205,6 +240,9 @@ export class Splitter extends React.Component<SplitterProps, SplitterState> {
         if (!this.state.isDragging) {
             return;
         }
+
+        const event = new CustomEvent('splitterDraggingEnd');
+        window.dispatchEvent(event);
 
         const {
             handleBarOffsetFromParent,
