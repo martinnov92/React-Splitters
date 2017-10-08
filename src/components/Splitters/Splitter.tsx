@@ -40,16 +40,17 @@ export class Splitter extends React.Component<SplitterProps, SplitterState> {
             customEventDragging: false
         };
 
-        this.getSize = this.getSize.bind(this);
-        this.listenForDragStart = this.listenForDragStart.bind(this);
-        this.listenForDragging = this.listenForDragging.bind(this);
-        this.listenForDragEnd = this.listenForDragEnd.bind(this);
-        this.handleMouseDown = this.handleMouseDown.bind(this);
         this.handleMouseUp = this.handleMouseUp.bind(this);
+        this.handleMouseDown = this.handleMouseDown.bind(this);
         this.handleMouseMove = this.handleMouseMove.bind(this);
+        this.listenForDragEnd = this.listenForDragEnd.bind(this);
+        this.listenForDragging = this.listenForDragging.bind(this);
+        this.listenForDragStart = this.listenForDragStart.bind(this);
+        this.getPrimaryPaneSize = this.getPrimaryPaneSize.bind(this);
+        this.getMaxMousePosition = this.getMaxMousePosition.bind(this);
     }
 
-    getSize(cX?: Number | any, cY?: Number | any) {
+    getMaxMousePosition(cX?: Number | any, cY?: Number | any) {
         /********************************
         * This function calculates the max position of a mouse in the current splitter from given percentage.
         /********************************/
@@ -65,7 +66,7 @@ export class Splitter extends React.Component<SplitterProps, SplitterState> {
 
         // find only letters from string
         const regEx = new RegExp(/\D+/gi);
-         
+
         if (this.props.position === 'vertical') {
             // split the maxWidth/maxHeight string to string and numbers
             let maxWidthStr = this.props.primaryPaneMaxWidth.match(regEx)[0].toLowerCase();
@@ -100,6 +101,50 @@ export class Splitter extends React.Component<SplitterProps, SplitterState> {
         });
     }
 
+    getPrimaryPaneSize() {
+        let wrapper = ReactDOM.findDOMNode(this.paneWrapper).getBoundingClientRect();
+        let primaryPane = ReactDOM.findDOMNode(this.panePrimary).getBoundingClientRect();
+        let handleBarSize = ReactDOM.findDOMNode(this.handlebar).getBoundingClientRect();
+
+        const regEx = new RegExp(/\D+/gi);
+        let primaryPaneSize;
+        let nodeWrapperSize;
+        let primaryPaneOffset;
+
+        if (this.props.position === 'vertical') {
+            // split the maxWidth/maxHeight string to string and numbers
+            let widthExt = this.props.primaryPaneWidth.match(regEx)[0].toLowerCase();
+            let widthFromProps = parseFloat(this.props.primaryPaneWidth.split(regEx)[0]);
+            nodeWrapperSize = wrapper.width;
+            primaryPaneOffset = primaryPane.left;
+
+            if (widthExt === '%') {
+                primaryPaneSize = wrapper.width - ((nodeWrapperSize * (widthFromProps / 100)) - (handleBarSize.width));
+                console.log({primaryPaneSize}, (nodeWrapperSize * (widthFromProps / 100) - (handleBarSize.width)));
+            } else if (widthExt === 'px') {
+                primaryPaneSize =
+                    Math.floor((widthFromProps + primaryPaneOffset) - handleBarSize.width);
+            }
+        } else {
+            let heightExt = this.props.primaryPaneHeight.match(regEx)[0].toLowerCase();
+            let heightFromProps = parseFloat(this.props.primaryPaneHeight.split(regEx)[0]);
+            nodeWrapperSize = wrapper.height;
+            primaryPaneOffset = primaryPane.top;
+
+            if (heightExt === '%') {
+                primaryPaneSize =
+                    Math.floor((nodeWrapperSize * (heightFromProps / 100)) + primaryPaneOffset - (handleBarSize.height));
+            } else if (heightExt === 'px') {
+                primaryPaneSize =
+                    Math.floor((heightFromProps + primaryPaneOffset) - handleBarSize.height);
+            }
+        }
+
+
+        console.log(ReactDOM.findDOMNode(this.paneWrapper));
+        console.log({ wrapper, primaryPane, handleBarSize });
+    }
+
     listenForDragStart() {
         // co se stane po startu?
     }
@@ -108,6 +153,8 @@ export class Splitter extends React.Component<SplitterProps, SplitterState> {
         this.setState({
             customEventDragging: true
         });
+
+        this.getPrimaryPaneSize();
     }
 
     listenForDragEnd() {
@@ -121,11 +168,10 @@ export class Splitter extends React.Component<SplitterProps, SplitterState> {
         * Sets event listeners after component is mounted.
         * If there is only one pane, the resize event listener won't be added
         ********************************/
+        this.getPrimaryPaneSize();
         document.addEventListener('mouseup', this.handleMouseUp);
         document.addEventListener('touchend', this.handleMouseUp);
         if (React.Children.count(this.props.children) > 1) {
-            window.addEventListener('resize', this.getSize);
-
             // listen for custom events
             window.addEventListener('splitterDraggingStart', this.listenForDragStart);
             window.addEventListener('splitterDragging', this.listenForDragging);
@@ -159,7 +205,7 @@ export class Splitter extends React.Component<SplitterProps, SplitterState> {
         }
 
         if (React.Children.count(this.props.children) > 1) {
-            this.getSize(clientX, clientY);
+            this.getMaxMousePosition(clientX, clientY);
         }
 
         if (this.props.position === 'horizontal') {
@@ -286,7 +332,7 @@ export class Splitter extends React.Component<SplitterProps, SplitterState> {
         }
 
         if (React.Children.count(this.props.children) > 1) {
-            this.getSize(lastX, lastY);
+            this.getMaxMousePosition(lastX, lastY);
         }
     }
 
@@ -303,9 +349,11 @@ export class Splitter extends React.Component<SplitterProps, SplitterState> {
         } = this.props;
 
         const {
-            handleBarClonePosition,
+            isVisible,
+            // isDragging,
             primaryPane,
-            isVisible
+            // customEventDragging,
+            handleBarClonePosition
         } = this.state;
 
         let paneStyle;
