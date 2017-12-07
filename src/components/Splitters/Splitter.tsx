@@ -24,72 +24,18 @@ export class Splitter extends React.Component<SplitterProps, SplitterState> {
         primaryPaneMinHeight: 300,
         primaryPaneHeight: '50%'
     };
-    
-    paneWrapper: any;
-    panePrimary: any;
-    handlebar: any;
-    paneNotPrimary: any;
 
-    constructor() {
-        super();
-        this.handleMouseDown = this.handleMouseDown.bind(this);
-        this.handleMouseUp = this.handleMouseUp.bind(this);
-        this.handleMouseMove = this.handleMouseMove.bind(this);
-        this.getSize = this.getSize.bind(this);
+    panePrimary: Pane;
+    paneNotPrimary: Pane;
+    handlebar: HandleBar;
+    paneWrapper: HTMLDivElement;
+
+    constructor(props: SplitterProps) {
+        super(props);
+
         this.state = {
             isDragging: false
         };
-    }
-
-    getSize(cX?: Number | any, cY?: Number | any) {
-        /********************************
-        * This function calculates the max position of a mouse in the current splitter from given percentage.
-        /********************************/
-        let maxMousePosition;
-        let nodeWrapperSize;
-        let primaryPaneOffset;
-        let wrapper = ReactDOM.findDOMNode(this.paneWrapper).getBoundingClientRect();
-        let primaryPane = ReactDOM.findDOMNode(this.panePrimary).getBoundingClientRect();
-        let handleBarSize = ReactDOM.findDOMNode(this.handlebar).getBoundingClientRect();
-        const posInHandleBar = this.props.position === 'vertical' 
-            ? handleBarSize.left - cX
-            : handleBarSize.top - cY;
-
-        // find only letters from string
-        const regEx = new RegExp(/\D+/gi);
-         
-        if (this.props.position === 'vertical') {
-            // split the maxWidth/maxHeight string to string and numbers
-            let maxWidthStr = this.props.primaryPaneMaxWidth.match(regEx)[0].toLowerCase();
-            let maxWidthNum = parseFloat(this.props.primaryPaneMaxWidth.split(regEx)[0]);
-            nodeWrapperSize = wrapper.width;
-            primaryPaneOffset = primaryPane.left;
-
-            if (maxWidthStr === '%') {
-                maxMousePosition =
-                    Math.floor((nodeWrapperSize * (maxWidthNum / 100)) + primaryPaneOffset - (handleBarSize.width + posInHandleBar));
-            } else if (maxWidthStr === 'px') {
-                maxMousePosition =
-                    Math.floor((maxWidthNum + primaryPaneOffset) - handleBarSize.width);
-            }
-        } else {
-            let maxHeightStr = this.props.primaryPaneMaxHeight.match(regEx)[0].toLowerCase();
-            let maxHeightNum = parseFloat(this.props.primaryPaneMaxHeight.split(regEx)[0]);
-            nodeWrapperSize = wrapper.height;
-            primaryPaneOffset = primaryPane.top;
-
-            if (maxHeightStr === '%') {
-                maxMousePosition =
-                    Math.floor((nodeWrapperSize * (maxHeightNum / 100)) + primaryPaneOffset - (handleBarSize.height + posInHandleBar));
-            } else if (maxHeightStr === 'px') {
-                maxMousePosition =
-                    Math.floor((maxHeightNum + primaryPaneOffset) - handleBarSize.height);
-            }
-        }
-
-        this.setState({
-            maxMousePosition
-        });
     }
 
     componentDidMount() {
@@ -99,12 +45,13 @@ export class Splitter extends React.Component<SplitterProps, SplitterState> {
         ********************************/
         document.addEventListener('mouseup', this.handleMouseUp);
         document.addEventListener('touchend', this.handleMouseUp);
+
         if (React.Children.count(this.props.children) > 1) {
             window.addEventListener('resize', this.getSize);
         }
     }
 
-    handleMouseDown(e: any) {
+    handleMouseDown = (e: any) => {
         /********************************
         * If the right button was clicked - stop the function
         * If there is more then one pane, we get the sizes of panes + max pos of mouse in splitter
@@ -144,7 +91,7 @@ export class Splitter extends React.Component<SplitterProps, SplitterState> {
         document.addEventListener('touchmove', this.handleMouseMove);
     }
 
-    handleMouseMove(e: any) {
+    handleMouseMove = (e: any) => {
         /********************************
         * check if the state is still isDragging, if not, stop the function
         * unselectAll - unselect all selected text
@@ -198,7 +145,7 @@ export class Splitter extends React.Component<SplitterProps, SplitterState> {
         }
     }
 
-    handleMouseUp(e: any) {
+    handleMouseUp = (e: any) => {
         /********************************
         * Dispatch event is for components which resizes on window resize
         ********************************/
@@ -316,6 +263,8 @@ export class Splitter extends React.Component<SplitterProps, SplitterState> {
                 }
                 break;
             }
+            default:
+                return null;
         }
 
         if (!children[1]) {
@@ -337,13 +286,13 @@ export class Splitter extends React.Component<SplitterProps, SplitterState> {
             <div
                 className={`splitter ${position === 'vertical' ? 'vertical' : 'horizontal'} ${className || ''}`}
                 style={onePaneStyle !== 'undefined' ? onePaneStyle : null}
-                ref={node => this.paneWrapper = node}
+                ref={(node: HTMLDivElement) => this.paneWrapper = node}
             >
                 <Pane
                     className={`primary ${primaryPaneClassName || ''}`}
                     position={position}
                     style={paneStyle}
-                    ref={(node) => this.panePrimary = node}
+                    ref={(node: Pane) => this.panePrimary = node}
                 >
                     {!children[1] ? children : children[0]}
                 </Pane>
@@ -353,7 +302,7 @@ export class Splitter extends React.Component<SplitterProps, SplitterState> {
                         ? <HandleBar
                             position={position}
                             handleMouseDown={this.handleMouseDown}
-                            ref={node => this.handlebar = node}
+                            ref={(node: HandleBar) => this.handlebar = node}
                             allowResize={allowResize}
                         />
                         : null
@@ -374,7 +323,7 @@ export class Splitter extends React.Component<SplitterProps, SplitterState> {
                             className={secondaryPaneClassName || ''}
                             position={position}
                             hasDetailPane={this.props.hasDetailPane}
-                            ref={node => this.paneNotPrimary = node}
+                            ref={(node: Pane) => this.paneNotPrimary = node}
                         >
                             {children[1]}
                         </Pane>
@@ -382,5 +331,57 @@ export class Splitter extends React.Component<SplitterProps, SplitterState> {
                 }
             </div>
         );
-    };
+    }
+
+    getSize = (cX?: Number | any, cY?: Number | any) => {
+        /********************************
+        * This function calculates the max position of a mouse in the current splitter from given percentage.
+        /********************************/
+        let maxMousePosition;
+        let nodeWrapperSize;
+        let primaryPaneOffset;
+        let wrapper = ReactDOM.findDOMNode(this.paneWrapper).getBoundingClientRect();
+        let primaryPane = ReactDOM.findDOMNode(this.panePrimary).getBoundingClientRect();
+        let handleBarSize = ReactDOM.findDOMNode(this.handlebar).getBoundingClientRect();
+
+        const posInHandleBar = this.props.position === 'vertical' 
+            ? handleBarSize.left - cX
+            : handleBarSize.top - cY;
+
+        // find only letters from string
+        const regEx = new RegExp(/\D+/gi);
+         
+        if (this.props.position === 'vertical') {
+            // split the maxWidth/maxHeight string to string and numbers
+            let maxWidthStr = this.props.primaryPaneMaxWidth.match(regEx)[0].toLowerCase();
+            let maxWidthNum = parseFloat(this.props.primaryPaneMaxWidth.split(regEx)[0]);
+            nodeWrapperSize = wrapper.width;
+            primaryPaneOffset = primaryPane.left;
+
+            if (maxWidthStr === '%') {
+                maxMousePosition =
+                    Math.floor((nodeWrapperSize * (maxWidthNum / 100)) + primaryPaneOffset - (handleBarSize.width + posInHandleBar));
+            } else if (maxWidthStr === 'px') {
+                maxMousePosition =
+                    Math.floor((maxWidthNum + primaryPaneOffset) - handleBarSize.width);
+            }
+        } else {
+            let maxHeightStr = this.props.primaryPaneMaxHeight.match(regEx)[0].toLowerCase();
+            let maxHeightNum = parseFloat(this.props.primaryPaneMaxHeight.split(regEx)[0]);
+            nodeWrapperSize = wrapper.height;
+            primaryPaneOffset = primaryPane.top;
+
+            if (maxHeightStr === '%') {
+                maxMousePosition =
+                    Math.floor((nodeWrapperSize * (maxHeightNum / 100)) + primaryPaneOffset - (handleBarSize.height + posInHandleBar));
+            } else if (maxHeightStr === 'px') {
+                maxMousePosition =
+                    Math.floor((maxHeightNum + primaryPaneOffset) - handleBarSize.height);
+            }
+        }
+
+        this.setState({
+            maxMousePosition
+        });
+    }
 }

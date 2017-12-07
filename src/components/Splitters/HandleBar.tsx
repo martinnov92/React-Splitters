@@ -18,7 +18,7 @@ class HandleBar extends React.Component<HandleBarProps, {}> {
                 <span className="handle-bar_drag" />
             </div>
         );
-    };
+    }
 }
 
 export default HandleBar;
