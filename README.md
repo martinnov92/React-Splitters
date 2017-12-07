@@ -1,12 +1,10 @@
 # Splitters for React
 
-<i>v. 1.0.2</i>
+<i>v. 1.0.3</i>
 
 **New version changes**
 
-* import like this `import Splitters from 'm-react-splitters'`
-
-* added typings files
+* fixed issue with `getBoundingClientRect` in React 16
 
 [NPM](https://www.npmjs.com/package/m-react-splitters)
 
