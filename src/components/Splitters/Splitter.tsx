@@ -341,8 +341,8 @@ export class Splitter extends React.Component<SplitterProps, SplitterState> {
         let nodeWrapperSize;
         let primaryPaneOffset;
         let wrapper = ReactDOM.findDOMNode(this.paneWrapper).getBoundingClientRect();
-        let primaryPane = ReactDOM.findDOMNode(this.panePrimary).getBoundingClientRect();
-        let handleBarSize = ReactDOM.findDOMNode(this.handlebar).getBoundingClientRect();
+        let primaryPane = this.panePrimary.getDivInstance().getBoundingClientRect();
+        let handleBarSize = this.handlebar.getDivInstance().getBoundingClientRect();
 
         const posInHandleBar = this.props.position === 'vertical' 
             ? handleBarSize.left - cX

@@ -1,15 +1,34 @@
 import * as React from 'react';
+import * as ReactDOM from 'react-dom';
+
 import { PaneProps } from './typings/index';
 
 class Pane extends React.Component<PaneProps, {}> {
+    div: HTMLDivElement;
+
     render() {
         const { hasDetailPane, id, style, position, className } = this.props;
-        const isDetailPane = hasDetailPane ? 'bottom-detail-pane' : '';
+
+        const classNames = [
+            'pane',
+            hasDetailPane && 'bottom-detail-pane',
+            position,
+            className
+        ].filter((cls) => cls).join(' ');
+
         return (
-            <div id={id} className={`pane ${position} ${isDetailPane} ${className || ''}`} style={style}>
+            <div
+                id={id}
+                ref={(node: HTMLDivElement) => this.div = node}
+                className={classNames}
+                style={style}>
                 {this.props.children}
             </div>
         );
+    }
+
+    getDivInstance = () => {
+        return ReactDOM.findDOMNode(this.div);
     }
 }
 
