@@ -11,6 +11,7 @@ import './splitters.css';
 
 // TODO: 
 // * uložit stav splitteru do localStorage,nebo někam jinam, bude na to callback funkce
+// zkusit prohodit výpočet šířky panelů, teď může primaryPane překrý secondaryPane, pokud jsou vnořené splittery
 
 export class Splitter extends React.Component<SplitterProps, SplitterState> {
     public static defaultProps: Partial<SplitterProps> = {
@@ -218,6 +219,7 @@ export class Splitter extends React.Component<SplitterProps, SplitterState> {
         } = this.state;
 
         let paneStyle;
+        let splitterStyle;
         switch (position) {
             case 'vertical': {
                 if (maximizedPrimaryPane) {
@@ -233,10 +235,10 @@ export class Splitter extends React.Component<SplitterProps, SplitterState> {
                         maxWidth: primaryPaneMaxWidth
                     };
                 } else {
-                    paneStyle = {
-                        width: primaryPane ? `${primaryPane}px` : primaryPaneWidth,
-                        minWidth: primaryPaneMinWidth,
-                        maxWidth: primaryPaneMaxWidth
+                    splitterStyle = {
+                        gridTemplateColumns: primaryPane ? `${primaryPane}px 10px 1fr` : `${primaryPaneWidth} 10px 1fr`,
+                        //minWidth: primaryPaneMinWidth,
+                        //maxWidth: primaryPaneMaxWidth
                     };
                 }
                 break;
@@ -268,11 +270,11 @@ export class Splitter extends React.Component<SplitterProps, SplitterState> {
         }
 
         if (!children[1]) {
-            var onePaneStyle: any = {
+            /*var onePaneStyle: any = {
                 width: '100%',
                 maxWidth: '100%',
                 height: '100%'
-            };
+            };*/
         }
 
         let handlebarClone;
@@ -285,13 +287,13 @@ export class Splitter extends React.Component<SplitterProps, SplitterState> {
         return (
             <div
                 className={`splitter ${position === 'vertical' ? 'vertical' : 'horizontal'} ${className || ''}`}
-                style={onePaneStyle !== 'undefined' ? onePaneStyle : null}
+                style={splitterStyle}
                 ref={(node: HTMLDivElement) => this.paneWrapper = node}
             >
                 <Pane
                     className={`primary ${primaryPaneClassName || ''}`}
                     position={position}
-                    style={paneStyle}
+                    // style={paneStyle}
                     ref={(node: Pane) => this.panePrimary = node}
                 >
                     {!children[1] ? children : children[0]}
