@@ -1,5 +1,4 @@
 import * as React from 'react';
-import * as ReactDOM from 'react-dom';
 
 import { HandleBarProps } from './typings/index';
 
@@ -32,7 +31,7 @@ class HandleBar extends React.Component<HandleBarProps, {}> {
     }
 
     getDivInstance = () => {
-        return ReactDOM.findDOMNode(this.div);
+        return this.div;
     }
 }
 

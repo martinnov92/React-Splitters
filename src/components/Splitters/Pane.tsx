@@ -1,5 +1,4 @@
 import * as React from 'react';
-import * as ReactDOM from 'react-dom';
 
 import { PaneProps } from './typings/index';
 
@@ -28,7 +27,7 @@ class Pane extends React.Component<PaneProps, {}> {
     }
 
     getDivInstance = () => {
-        return ReactDOM.findDOMNode(this.div);
+        return this.div;
     }
 }
 
