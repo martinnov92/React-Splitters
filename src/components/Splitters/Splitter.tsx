@@ -1,5 +1,4 @@
 import * as React from 'react';
-import * as ReactDOM from 'react-dom';
 /********************************
 * import files needed for splitter to work
 ********************************/
@@ -340,7 +339,9 @@ export class Splitter extends React.Component<SplitterProps, SplitterState> {
         let maxMousePosition;
         let nodeWrapperSize;
         let primaryPaneOffset;
-        let wrapper = ReactDOM.findDOMNode(this.paneWrapper).getBoundingClientRect();
+        if (!this.paneWrapper)
+            return;
+        let wrapper = this.paneWrapper.getBoundingClientRect();
         let primaryPane = this.panePrimary.getDivInstance().getBoundingClientRect();
         let handleBarSize = this.handlebar.getDivInstance().getBoundingClientRect();
 
