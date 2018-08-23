@@ -1,5 +1,5 @@
 import * as React from 'react';
-import * as ReactDOM from 'react-dom';
+
 /********************************
 * import files needed for splitter to work
 ********************************/
@@ -8,9 +8,6 @@ import HandleBar from './HandleBar';
 import { unselectAll, getPrimaryPaneWidth } from './Helpers';
 import { SplitterProps, SplitterState } from './typings/index';
 import './splitters.css';
-
-// TODO: 
-// * uložit stav splitteru do localStorage,nebo někam jinam, bude na to callback funkce
 
 export class Splitter extends React.Component<SplitterProps, SplitterState> {
     public static defaultProps: Partial<SplitterProps> = {
@@ -127,7 +124,16 @@ export class Splitter extends React.Component<SplitterProps, SplitterState> {
             clientY = e.touches[0].clientY;
         }
 
-        const primaryPanePosition = getPrimaryPaneWidth(position, clientX, clientY, maxMousePosition, handleBarOffsetFromParent, primaryPaneMinHeight, primaryPaneMinWidth);
+        const primaryPanePosition =
+            getPrimaryPaneWidth(
+                position,
+                clientX,
+                clientY,
+                maxMousePosition,
+                handleBarOffsetFromParent,
+                primaryPaneMinHeight,
+                primaryPaneMinWidth
+            );
 
         if (postPoned) {
             this.setState({
@@ -165,7 +171,16 @@ export class Splitter extends React.Component<SplitterProps, SplitterState> {
             postPoned
         } = this.props;
 
-        const primaryPanePosition = getPrimaryPaneWidth(position, lastX, lastY, maxMousePosition, handleBarOffsetFromParent, primaryPaneMinHeight, primaryPaneMinWidth);
+        const primaryPanePosition =
+            getPrimaryPaneWidth(
+                position,
+                lastX,
+                lastY,
+                maxMousePosition,
+                handleBarOffsetFromParent,
+                primaryPaneMinHeight,
+                primaryPaneMinWidth
+            );
 
         if (postPoned) {
             this.setState({
@@ -282,6 +297,11 @@ export class Splitter extends React.Component<SplitterProps, SplitterState> {
             };
         }
 
+        const handleBarCloneClassName = [
+            'handle-bar handle-bar_clone',
+             position === 'vertical' ? 'vertical' : 'horizontal',
+        ].join(' ');
+
         return (
             <div
                 className={`splitter ${position === 'vertical' ? 'vertical' : 'horizontal'} ${className || ''}`}
@@ -311,8 +331,8 @@ export class Splitter extends React.Component<SplitterProps, SplitterState> {
                 {
                     postPoned && isVisible
                         ? <div
-                            className={`handle-bar handle-bar_clone ${position === 'vertical' ? 'vertical' : 'horizontal'} `}
                             style={handlebarClone}
+                            className={handleBarCloneClassName}
                         />
                         : null
                 }
@@ -340,7 +360,7 @@ export class Splitter extends React.Component<SplitterProps, SplitterState> {
         let maxMousePosition;
         let nodeWrapperSize;
         let primaryPaneOffset;
-        let wrapper = ReactDOM.findDOMNode(this.paneWrapper).getBoundingClientRect();
+        let wrapper = this.paneWrapper.getBoundingClientRect();
         let primaryPane = this.panePrimary.getDivInstance().getBoundingClientRect();
         let handleBarSize = this.handlebar.getDivInstance().getBoundingClientRect();
 
@@ -360,7 +380,10 @@ export class Splitter extends React.Component<SplitterProps, SplitterState> {
 
             if (maxWidthStr === '%') {
                 maxMousePosition =
-                    Math.floor((nodeWrapperSize * (maxWidthNum / 100)) + primaryPaneOffset - (handleBarSize.width + posInHandleBar));
+                    Math.floor(
+                        (nodeWrapperSize * (maxWidthNum / 100)) +
+                        primaryPaneOffset - (handleBarSize.width + posInHandleBar)
+                    );
             } else if (maxWidthStr === 'px') {
                 maxMousePosition =
                     Math.floor((maxWidthNum + primaryPaneOffset) - handleBarSize.width);
@@ -373,7 +396,10 @@ export class Splitter extends React.Component<SplitterProps, SplitterState> {
 
             if (maxHeightStr === '%') {
                 maxMousePosition =
-                    Math.floor((nodeWrapperSize * (maxHeightNum / 100)) + primaryPaneOffset - (handleBarSize.height + posInHandleBar));
+                    Math.floor(
+                        (nodeWrapperSize * (maxHeightNum / 100)) +
+                        primaryPaneOffset - (handleBarSize.height + posInHandleBar)
+                    );
             } else if (maxHeightStr === 'px') {
                 maxMousePosition =
                     Math.floor((maxHeightNum + primaryPaneOffset) - handleBarSize.height);
