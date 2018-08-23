@@ -1,6 +1,4 @@
 import * as React from 'react';
-import * as ReactDOM from 'react-dom';
-
 import { PaneProps } from './typings/index';
 
 class Pane extends React.Component<PaneProps, {}> {
@@ -21,14 +19,15 @@ class Pane extends React.Component<PaneProps, {}> {
                 id={id}
                 ref={(node: HTMLDivElement) => this.div = node}
                 className={classNames}
-                style={style}>
+                style={style}
+            >
                 {this.props.children}
             </div>
         );
     }
 
     getDivInstance = () => {
-        return ReactDOM.findDOMNode(this.div);
+        return this.div;
     }
 }
 

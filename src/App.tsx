@@ -39,7 +39,7 @@ class App extends React.Component<{}, AppState> {
               primaryPaneWidth="400px"
               onDragFinished={this.onDragFinishedCallback}
               dispatchResize={true}
-              postPoned={false}
+              postPoned={true}
               allowResize={true}
             >
               <div className="placeholder _1">

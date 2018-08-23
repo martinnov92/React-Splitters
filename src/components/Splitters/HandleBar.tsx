@@ -1,14 +1,12 @@
 import * as React from 'react';
-import * as ReactDOM from 'react-dom';
-
 import { HandleBarProps } from './typings/index';
 
 class HandleBar extends React.Component<HandleBarProps, {}> {
-    div: HTMLDivElement;
-
-    public static defaultProps: Partial<HandleBarProps> = {
+    static defaultProps: Partial<HandleBarProps> = {
         allowResize: true
     };
+
+    div: HTMLDivElement;
 
     render() {
         const { position, handleMouseDown, allowResize } = this.props;
@@ -32,7 +30,7 @@ class HandleBar extends React.Component<HandleBarProps, {}> {
     }
 
     getDivInstance = () => {
-        return ReactDOM.findDOMNode(this.div);
+        return this.div;
     }
 }
 
