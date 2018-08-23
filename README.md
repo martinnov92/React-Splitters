@@ -1,6 +1,6 @@
 # Splitters for React
 
-<i>v. 1.0.3</i>
+<i>v. 1.0.6</i>
 
 **New version changes**
 
