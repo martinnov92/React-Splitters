@@ -16,8 +16,7 @@
     "strictNullChecks": true,
     "suppressImplicitAnyIndexErrors": true,
     "noUnusedLocals": true,
-    "removeComments": true,
-    "declaration": true,
+    "removeComments": true
   },
   "exclude": [
     "node_modules",
