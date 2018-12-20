@@ -58,6 +58,7 @@ export class Splitter extends React.Component<SplitterProps, SplitterState> {
             return;
         }
 
+        const target = e.currentTarget;
         let handleBarOffsetFromParent;
         let clientX;
         let clientY;
@@ -75,15 +76,16 @@ export class Splitter extends React.Component<SplitterProps, SplitterState> {
         }
 
         if (this.props.position === 'horizontal') {
-            handleBarOffsetFromParent = clientY - e.target.offsetTop;
+            handleBarOffsetFromParent = clientY - target.offsetTop;
         } else if (this.props.position === 'vertical') {
-            handleBarOffsetFromParent = clientX - e.target.offsetLeft;
+            handleBarOffsetFromParent = clientX - target.offsetLeft;
         }
 
         this.setState({
             isDragging: true,
             handleBarOffsetFromParent
         });
+
         document.addEventListener('mousemove', this.handleMouseMove);
         document.addEventListener('touchmove', this.handleMouseMove);
     }

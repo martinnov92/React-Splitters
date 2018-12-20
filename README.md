@@ -1,5 +1,11 @@
 # Splitters for React
 
+<i>v. 1.1.1</i>
+
+**New version changes**
+
+* fixed [issue](https://github.com/martinnov92/React-Splitters/issues/15)
+
 <i>v. 1.1.0</i>
 
 **New version changes**

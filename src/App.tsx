@@ -11,6 +11,8 @@ class App extends React.Component<{}, AppState> {
     maxPrimaryPane: false
   };
 
+  split: Splitter | null = null;
+
   maxPrimaryPane = () => {
     this.setState({
       maxPrimaryPane: !this.state.maxPrimaryPane
@@ -19,6 +21,9 @@ class App extends React.Component<{}, AppState> {
 
   onDragFinishedCallback = () => {
     console.log('callback');
+    console.log(this.split && this.split.paneWrapper); // actual div
+    console.log(this.split && this.split.panePrimary.div.clientWidth);
+    console.log(this.split && this.split.paneNotPrimary.div.clientHeight);
   }
 
   render() {
@@ -31,7 +36,8 @@ class App extends React.Component<{}, AppState> {
             minimalizedPrimaryPane={false}
             onDragFinished={this.onDragFinishedCallback}
             className="split"
-          >            
+            ref={(node) => this.split = node}
+          >
             <Splitter
               position="vertical"
               primaryPaneMaxWidth="100%"
@@ -54,7 +60,7 @@ class App extends React.Component<{}, AppState> {
                   primaryPaneWidth="400px"
                   onDragFinished={this.onDragFinishedCallback}
                   postPoned={false}
-              >    
+              >
                   <div className="placeholder _2">
                     <span>2</span>
                     <p>normal resize</p>
@@ -65,9 +71,9 @@ class App extends React.Component<{}, AppState> {
             </Splitter>
             <div className="placeholder _4">
               <span>4</span>
-              <p>normal resize</p>  
+              <p>normal resize</p>
             </div>
-          </Splitter>         
+          </Splitter>
         </div>
       </div>
     );
