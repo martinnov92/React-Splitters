@@ -77,7 +77,15 @@ export class Splitter extends React.Component<SplitterProps, SplitterState> {
         if (this.props.position === 'horizontal') {
             handleBarOffsetFromParent = clientY - e.target.offsetTop;
         } else if (this.props.position === 'vertical') {
-            handleBarOffsetFromParent = clientX - e.target.offsetLeft;
+            
+            var target = e.target;
+
+            // if the span has been clicked take the parent div
+            if (e.target.className === 'handle-bar_drag') {
+                target = e.target.parentElement;
+            }
+
+            handleBarOffsetFromParent = clientX - target.offsetLeft;
         }
 
         this.setState({
