@@ -1,6 +1,13 @@
 {
-  "main.css": "static/css/main.0fec7875.css",
-  "main.css.map": "static/css/main.0fec7875.css.map",
-  "main.js": "static/js/main.ddc0ac61.js",
-  "main.js.map": "static/js/main.ddc0ac61.js.map"
+  "main.css": "/React-Splitters/static/css/main.6ba08d2b.chunk.css",
+  "main.js": "/React-Splitters/static/js/main.20a12729.chunk.js",
+  "main.js.map": "/React-Splitters/static/js/main.20a12729.chunk.js.map",
+  "static/js/1.6582865d.chunk.js": "/React-Splitters/static/js/1.6582865d.chunk.js",
+  "static/js/1.6582865d.chunk.js.map": "/React-Splitters/static/js/1.6582865d.chunk.js.map",
+  "runtime~main.js": "/React-Splitters/static/js/runtime~main.e8bd0c2b.js",
+  "runtime~main.js.map": "/React-Splitters/static/js/runtime~main.e8bd0c2b.js.map",
+  "static/css/main.6ba08d2b.chunk.css.map": "/React-Splitters/static/css/main.6ba08d2b.chunk.css.map",
+  "index.html": "/React-Splitters/index.html",
+  "precache-manifest.e012afa12f2c99b2d230df197b606f82.js": "/React-Splitters/precache-manifest.e012afa12f2c99b2d230df197b606f82.js",
+  "service-worker.js": "/React-Splitters/service-worker.js"
 }
