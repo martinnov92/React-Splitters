@@ -47,6 +47,10 @@ export class Splitter extends React.Component<SplitterProps, SplitterState> {
             window.addEventListener('resize', this.getSize);
         }
     }
+    
+    componentWillUnmount() {
+        window.removeEventListener('resize', this.getSize);
+    }
 
     handleMouseDown = (e: any) => {
         /********************************
