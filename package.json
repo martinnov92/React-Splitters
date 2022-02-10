@@ -26,7 +26,7 @@
     "@types/node": "^10.9.0",
     "@types/react": "^16.4.11",
     "@types/react-dom": "^16.0.7",
-    "node-sass": "^4.13.0",
+    "node-sass": "^7.0.0",
     "npm-run-all": "^4.1.3",
     "react-scripts-ts": "^4.0.8",
     "typescript": "^3.0.1"
