@@ -48,6 +48,14 @@ export class Splitter extends React.Component<SplitterProps, SplitterState> {
         }
     }
 
+    componentWillUnmount() {
+        /********************************
+        * Remove event listeners after component is mounted.
+        * We need to remove the event listener to avoid triggering from an unmounted component
+        ********************************/
+        window.removeEventListener('resize', this.getSize);
+    }
+
     handleMouseDown = (e: any) => {
         /********************************
         * If the right button was clicked - stop the function
